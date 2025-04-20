@@ -2,6 +2,7 @@ package com.example.myapp.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class QuestionService {
                 .build();
     }
 
-    // 팀별 문제 목록 조회 (참고용)
+    // 팀별 문제 목록 조회
     public List<QuestionResponseDto> getQuestionsByTeam(Long teamId) {
         return questionRepository.findByTeamId(teamId).stream()
                 .map(q -> {

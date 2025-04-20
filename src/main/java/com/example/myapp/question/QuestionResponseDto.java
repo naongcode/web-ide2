@@ -1,5 +1,6 @@
 package com.example.myapp.question;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +14,29 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class QuestionResponseDto {
 
-    private String questLink;
-    private Long teamId;
-    private String creatorId;
-    private Long questId;
-    private String questName;
-    private LocalDate questStart;
-    private LocalDate questDue;
-    private String questStatus;
+    @JsonProperty("quest_link")
+    private String questLink;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("team_id")
+    private Long teamId;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("creator_id")
+    private String creatorId;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("quest_id")
+    private Long questId;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("quest_name")
+    private String questName;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("quest_start")
+    private LocalDate questStart;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("quest_due")
+    private LocalDate questDue;  // 필드명 카멜케이스로 변경
+
+    @JsonProperty("quest_status")
+    private String questStatus;  // 필드명 카멜케이스로 변경
 
     // 오늘 날짜와 마감 날짜를 비교하여 questStatus 설정
     public void setQuestStatus() {
@@ -35,8 +51,8 @@ public class QuestionResponseDto {
     }
 
     // 추가적인 생성자 및 필요한 메서드
-    public QuestionResponseDto(Long questId, String questName, String creatorId,Long teamId,
-                            LocalDate questStart, LocalDate questDue, String questLink) {
+    public QuestionResponseDto(Long questId, String questName, String creatorId, Long teamId,
+                               LocalDate questStart, LocalDate questDue, String questLink) {
         this.questId = questId;
         this.teamId = teamId;
         this.questName = questName;
