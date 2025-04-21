@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'  // Spring Web 의존성
-    implementation 'org.springframework.boot:spring-boot-starter-security'  // Spring Security 의존성 (보안 관련 설정)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

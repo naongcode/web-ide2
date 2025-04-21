@@ -44,7 +44,7 @@ public class UserService {
         }
 
         //bycrpt 해싱
-        String hashedPassword = PasswordUtil.hashPassword(request.getPassword());
+        String password = PasswordUtil.hashPassword(request.getPassword());
 
         int tierNumber = solvedAcService.fetchTier(request.getUserId());
         String tier = TierUtil.convertTier(tierNumber);
@@ -54,7 +54,7 @@ public class UserService {
                 .userId(request.getUserId())
                 .nickname(request.getNickname())
                 .email(request.getEmail())
-                .hashedPassword(hashedPassword)
+                .Password(password)
                 .tier(tier)
                 .lastTierUpdatedAt(lastTierUpdatedAt)
                 .build();
@@ -81,7 +81,7 @@ public class UserService {
         String hashedPassword = PasswordUtil.hashPassword(request.getPassword());
 
         // bcrypt 비밀번호 비교
-        if (!PasswordUtil.verifyPassword(request.getPassword(), user2.getHashedPassword())) {
+        if (!PasswordUtil.verifyPassword(request.getPassword(), user2.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 잘못되었습니다.");
         }
 
@@ -131,7 +131,7 @@ public class UserService {
         String hashedPassword = PasswordUtil.hashPassword(tempPassword);
 
         //비밀번호 갱신하는 로직
-        user2.setHashedPassword(hashedPassword);
+        user2.setPassword(hashedPassword);
         userRepository.save(user2);
 
         //이메일 전송(임시 비밀번호도 같이)

@@ -1,5 +1,6 @@
 package com.example.myapp.IDE.submission;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,9 +8,18 @@ import lombok.Setter;
 @Setter
 public class SubmissionRequest {
 
-    private Long questId;        // 어떤 퀘스트에 대한 제출인지
-    private String userId;       // 제출한 사용자 ID
-    private String codeContext;  // 코드 내용
-    private Boolean isCompleted; // 완료 여부
+    @JsonProperty("quest_id")  // 스네이크 케이스와 매핑
+    private Long questId;
+
+    @JsonProperty("user_id")  // 스네이크 케이스와 매핑
+    private String userId;
+
+    @JsonProperty("code_context")  // 스네이크 케이스와 매핑
+    private String codeContext;
+
+    @JsonProperty("is_completed")  // 스네이크 케이스와 매핑
+    private Boolean isCompleted;
+
+    private String language;
 }
 

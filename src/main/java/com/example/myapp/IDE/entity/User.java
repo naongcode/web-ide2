@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -25,8 +24,8 @@ public class User {
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(name = "hashed_password", nullable = false, length = 255)
-    private String hashedPassword;
+    @Column(name = "password", nullable = false, length = 255)
+    private String Password;
 
     @Column(name = "tier", length = 20)
     private String tier;

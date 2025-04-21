@@ -18,7 +18,7 @@ public class Message {
     private Long id;
 
     @Column(name = "team_id")
-    private String teamId;
+    private Long teamId;
 
     @Column(name = "nickname")
     private String nickname;

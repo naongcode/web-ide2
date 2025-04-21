@@ -3,15 +3,20 @@ package com.example.myapp.websocket.chat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class MessageRequest {
-    private String teamId;
+    @JsonProperty("team_id")
+    private Long teamId;
     private String nickname;
+
+    @JsonProperty("user_id")
     private String userId;
+
     private String content;
-    // 메세지 타입
     private String type;
 }

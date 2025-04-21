@@ -13,12 +13,12 @@ public class MessageHistoryService {
     }
 
     // 팀 ID에 따라 이전 메시지 목록을 가져오는 메서드
-    public List<Message> getMessageHistoryByTeamId(String teamId) {
+    public List<Message> getMessageHistoryByTeamId(Long teamId) {
         return messageRepository.findAllByTeamId(teamId);
     }
 
     // 검색 기능 추가 (예: 내용으로 검색)
-    public List<Message> searchMessagesByKeyword(String teamId, String keyword) {
+    public List<Message> searchMessagesByKeyword(Long teamId, String keyword) {
         return messageRepository.findByTeamIdAndContentContaining(teamId, keyword);
     }
 }

@@ -29,6 +29,7 @@ public class MessageService {
                 .timestamp(formattedTimestamp)  // 변환된 날짜 형식 사용
                 .build();
 
+        System.out.println("💾 저장할 메시지: " + message);
         messageRepository.save(message);
     }
 }

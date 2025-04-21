@@ -17,7 +17,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final MessageHistoryService messageHistoryService;
 
     // 클라이언트로부터 받은 teamId를 저장할 변수
-    private String teamId;
+    private Long teamId;
 
     public ChatWebSocketHandler(MessageService messageService, MessageHistoryService messageHistoryService) {
         this.messageService = messageService;
@@ -63,8 +63,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             // 조회된 메시지를 클라이언트에게 전송
             for (Message msg : messages) {
                 MessageResponse response = new MessageResponse(
-                        msg.getNickname(),
                         msg.getTeamId(),
+                        msg.getNickname(),
                         msg.getUserId(),
                         msg.getContent(),
                         msg.getTimestamp()
@@ -79,8 +79,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
             // 응답 객체 생성
             MessageResponse response = new MessageResponse(
-                    request.getNickname(),
                     request.getTeamId(),
+                    request.getNickname(),
                     request.getUserId(),
                     request.getContent(),
                     DateFormatUtil.convertToMySQLDateFormat(Instant.now())  // MySQL 형식으로 변환

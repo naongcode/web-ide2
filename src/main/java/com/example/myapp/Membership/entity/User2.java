@@ -27,8 +27,8 @@ public class User2 {
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(name = "hashed_password", nullable = false, length = 255)
-    private String hashedPassword;
+    @Column(name = "password", nullable = false, length = 255)
+    private String Password;
 
     @Column(name = "tier", length = 20)
     private String tier;

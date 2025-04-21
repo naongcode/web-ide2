@@ -13,3 +13,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+
+  logging:
+    level:
+      com.example.myapp: INFO
+      com.example.myapp.IDE.submission: DEBUG

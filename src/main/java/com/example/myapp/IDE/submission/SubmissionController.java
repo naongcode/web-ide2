@@ -1,10 +1,12 @@
 package com.example.myapp.IDE.submission;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/submission")
 public class SubmissionController {
@@ -17,14 +19,20 @@ public class SubmissionController {
     }
 
     // 코드 제출 요청
-    @PostMapping("/{questId}/{userId}")  // questId와 userId를 경로로 받기
+    @PostMapping("/")  // questId와 userId를 경로로 받기
     public ResponseEntity<SubmissionResponse> submitCode(
-            @PathVariable Long questId,  // URL에서 questId를 추출
-            @PathVariable String userId, // URL에서 userId를 추출
             @RequestBody SubmissionRequest request // 요청 본문에서 코드와 제출 완료 여부 받기
     ) {
-        // 코드 제출 로직 처리
-        SubmissionResponse response = submissionService.submit(request);
-        return ResponseEntity.ok(response); // 응답 리턴
+        log.info("Received request to submit code: {}", request); // 요청 받은 로그
+
+        try {
+            // 코드 제출 로직 처리
+            SubmissionResponse response = submissionService.submit(request);
+            log.info("Code submitted successfully: {}", response); // 성공적인 제출 로그
+            return ResponseEntity.ok(response); // 응답 리턴
+        } catch (Exception e) {
+            log.error("Error while submitting code: {}", e.getMessage(), e); // 에러 발생 시 로그
+            return ResponseEntity.status(500).body(null); // 서버 에러 응답
+        }
     }
 }

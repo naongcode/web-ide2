@@ -10,5 +10,6 @@ import java.util.Date;
 public class SubmissionResponse {
 
     private String output;
-
+    private Date submittedAt;
+    private String language;
 }

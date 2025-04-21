@@ -13,7 +13,7 @@ public class MessageSearchService {
         this.messageRepository = messageRepository;
     }
 
-    public List<Message> searchMessagesByKeyword(String teamId, String keyword) {
+    public List<Message> searchMessagesByKeyword(Long teamId, String keyword) {
         return messageRepository.findByTeamIdAndContentContaining(teamId, keyword);
     }
 }
