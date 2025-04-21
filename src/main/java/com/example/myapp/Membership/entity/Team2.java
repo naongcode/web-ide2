@@ -1,7 +1,5 @@
 package com.example.myapp.Membership.entity;
 
-import com.example.myapp.Membership.entity.Chat;
-import com.example.myapp.IDE.entity.Quest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "team")
-public class Team {
+public class Team2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,14 +34,14 @@ public class Team {
 
     @ManyToOne
     @JoinColumn(name = "leader_id", nullable = false)
-    private User leaderId;
+    private User2 leaderId;
 
     @Column(name = "team_tier", length = 20)
     private String teamTier;
 
     @OneToMany(mappedBy = "teamId")
-    private List<TeamMember> teamMembers;
-    public Team(String teamName, String teamDescription, int maxmember, String teamTier, User leader) {
+    private List<TeamMember2> teamMembers;
+    public Team2(String teamName, String teamDescription, int maxmember, String teamTier, User2 leader) {
         this.teamName = teamName;
         this.teamDescription = teamDescription;
         this.maxMember = maxmember;

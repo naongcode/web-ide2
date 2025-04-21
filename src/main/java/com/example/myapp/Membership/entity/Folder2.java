@@ -1,4 +1,4 @@
-package com.example.myapp.IDE.entity;
+package com.example.myapp.Membership.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "folder")
-public class Folder {
+public class Folder2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +26,10 @@ public class Folder {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", referencedColumnName = "folder_id")
-    private Folder parentId;
+    private Folder2 parentId;
 
     @OneToMany(mappedBy = "folder") // File 엔티티의 folder 필드와 매핑
-    private List<File> files;
+    private List<File2> files;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

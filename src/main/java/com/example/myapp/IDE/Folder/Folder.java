@@ -41,9 +41,9 @@ public class Folder {
     // 부모 폴더와의 관계 설정
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", referencedColumnName = "folder_id")
-    private Folder parentFolder;
+    private Folder parentId;
 
-    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentId", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Folder> childFolders = new ArrayList<>();
 

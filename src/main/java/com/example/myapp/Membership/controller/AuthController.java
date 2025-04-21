@@ -1,7 +1,7 @@
 package com.example.myapp.Membership.controller;
 
 import com.example.myapp.Membership.dto.*;
-import com.example.myapp.Membership.entity.User;
+import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
         try {
-            User user = userService.register(request);
+            User2 user2 = userService.register(request);
             //신규
             RegisterResponse response = new RegisterResponse("회원가입 성공");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);

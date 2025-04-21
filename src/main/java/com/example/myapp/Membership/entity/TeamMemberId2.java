@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class TeamMemberId implements Serializable {
+public class TeamMemberId2 implements Serializable {
     private Integer teamId;
     private String userId;
 }

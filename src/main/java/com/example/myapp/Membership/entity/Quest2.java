@@ -1,6 +1,5 @@
-package com.example.myapp.IDE.entity;
+package com.example.myapp.Membership.entity;
 
-import com.example.myapp.IDE.File.File;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "quest")
-public class Quest {
+public class Quest2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +22,7 @@ public class Quest {
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
-    private Team teamId;
+    private Team2 teamId;
 
     @Column(name = "quest_name", nullable = false, length = 100)
     private String questName;
@@ -39,9 +38,14 @@ public class Quest {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
-    private User creatorId;
+    private User2 creatorId;
 
     @Column(name = "quest_status", nullable = false, length = 20, columnDefinition = "VARCHAR(20) DEFAULT 'IN_PROGRESS'")
     private String quesStatus;
 
+    @OneToMany(mappedBy = "questId")
+    private List<Submission2> submissions;
+
+    @OneToMany(mappedBy = "questId")
+    private List<File2> files;
 }

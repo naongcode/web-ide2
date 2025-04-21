@@ -1,6 +1,5 @@
-package com.example.myapp.IDE.entity;
+package com.example.myapp.Membership.entity;
 
-import com.example.myapp.IDE.File.File;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,20 +14,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "submission")
-public class Submission {
+public class Submission2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "submit_id")
-    private Integer submissionId;
+    private Integer submitId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "quest_id", nullable = false)
-    private Quest quest;
+    private Quest2 questId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User2 userId;
 
     @Column(name = "code_context", columnDefinition = "TEXT")
     private String codeContext;
@@ -44,6 +43,6 @@ public class Submission {
     private boolean isCompleted;
 
     @OneToMany(mappedBy = "submission")
-    private List<File> files;
+    private List<File2> files;
 
 }

@@ -1,14 +1,16 @@
 package com.example.myapp.IDE.service;
 
 import com.example.myapp.IDE.dto.*;
-import com.example.myapp.IDE.entity.File;
-import com.example.myapp.IDE.entity.Folder;
+import com.example.myapp.IDE.File.File;
+import com.example.myapp.IDE.Folder.Folder;
 import com.example.myapp.IDE.entity.Quest;
 import com.example.myapp.IDE.entity.Submission;
-import com.example.myapp.IDE.repository.QuestRepository;
-import com.example.myapp.IDE.repository.SubmissionRepository;
+import com.example.myapp.repository.FolderRepository;
+import com.example.myapp.repository.FileRepository;
 
 
+import com.example.myapp.repository.QuestRepository;
+import com.example.myapp.repository.SubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,8 +47,8 @@ public class CodeService {
         List<FolderInfo> result = new ArrayList<>();
 
         for (Folder folder : folders) {
-            List<File> files = fileRepository.findByFolder_FolderIdAndSubmission_UserId_UserIdAndSubmission_QuestId_QuestId(
-                    folder.getFolderId(), userId, questId.intValue()
+            List<File> files = fileRepository.findByFolder_FolderIdAndSubmission_User_UserIdAndSubmission_Quest_QuestId(
+                    folder.getFolderId(), userId, questId
             );
 
             List<FileInfo> fileInfos = files.stream().map(file ->
@@ -73,8 +75,8 @@ public class CodeService {
         Optional<Folder> folderOptional = folderRepository.findById(folderId);
         if (folderOptional.isPresent()) {
             Folder folder = folderOptional.get();
-            List<File> files = fileRepository.findByFolder_FolderIdAndSubmission_UserId_UserIdAndSubmission_QuestId_QuestId(
-                    folderId, userId, questId
+            List<File> files = fileRepository.findByFolder_FolderIdAndSubmission_User_UserIdAndSubmission_Quest_QuestId(
+                    folderId, userId, Long.valueOf(questId)
             );
             List<FileInfo> fileInfos = files.stream().map(file ->
                     new FileInfo(
@@ -160,7 +162,7 @@ public class CodeService {
     //코드 업데이트 로직
     public boolean updateQuestStatus(Long questId, String userId, String questStatus) {
         log.info("updateQuestStatus 호출 - questId: {}, userId: {}, questStatus: {}", questId, userId, questStatus);
-        Optional<Quest> questOptional = questRepository.findById(questId.intValue());
+        Optional<Quest> questOptional = questRepository.findById(questId);
         if (questOptional.isPresent()) {
             Quest quest = questOptional.get();
             log.info("퀘스트 조회 성공 - quest: {}", quest);

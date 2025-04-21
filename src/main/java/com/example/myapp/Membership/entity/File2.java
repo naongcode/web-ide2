@@ -1,5 +1,7 @@
-package com.example.myapp.IDE.entity;
+package com.example.myapp.Membership.entity;
 
+import com.example.myapp.IDE.entity.Quest;
+import com.example.myapp.IDE.entity.Submission;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +16,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @Table(name = "file")
-public class File {
+public class File2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +38,7 @@ public class File {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
-    private Folder folder;
+    private Folder2 folder;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "submission_id", nullable = false)

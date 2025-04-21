@@ -40,7 +40,7 @@ public class FolderController {
                 .questId(folder.getQuestId())
                 .userId(folder.getUserId())
                 .folderName(folder.getFolderName())
-                .parentId(folder.getParentFolder() != null ? folder.getParentFolder().getFolderId() : 0L)
+                .parentId(folder.getParentId() != null ? folder.getParentId().getFolderId() : 0L)
                 .createdAt(folder.getCreatedAt())
                 .build();
 

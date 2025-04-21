@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import com.example.myapp.IDE.repository.FolderRepository;
+import com.example.myapp.repository.FolderRepository;
 @Service
 @RequiredArgsConstructor
 public class FolderService {
@@ -40,7 +40,7 @@ public class FolderService {
                 .questId(request.getQuestId())
                 .userId(request.getUserId())
                 .folderName(request.getFolderName())
-                .parentFolder(parentFolder)
+                .parentId(parentFolder)
                 .build();
 
         logger.info("Saving new folder: folderName={}, teamId={}, questId={}", folder.getFolderName(), folder.getTeamId(), folder.getQuestId());

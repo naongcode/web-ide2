@@ -1,6 +1,6 @@
 package com.example.myapp.repository;
 
-import com.example.myapp.entity.Quest;
+import com.example.myapp.IDE.entity.Quest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuestRepository extends JpaRepository<Quest, Long> {

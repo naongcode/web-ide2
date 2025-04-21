@@ -1,7 +1,5 @@
 package com.example.myapp.Membership.entity;
 
-import com.example.myapp.Membership.entity.User;
-import com.example.myapp.Membership.entity.Team;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "chat")
-public class Chat {
+public class Chat2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +22,11 @@ public class Chat {
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
-    private Team teamId;
+    private Team2 teamId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private User2 userId;
 
     @Column(name = "message", nullable = false, columnDefinition = "TEXT")
     private String message;

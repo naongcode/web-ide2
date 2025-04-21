@@ -1,6 +1,5 @@
 package com.example.myapp.Membership.entity;
 
-import com.example.myapp.Membership.entity.Chat;
 import com.example.myapp.IDE.entity.Quest;
 import com.example.myapp.IDE.entity.Submission;
 import jakarta.persistence.*;
@@ -16,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User {
+public class User2 {
 
     @Id
     @Column(name = "user_id", length = 10)
@@ -39,18 +38,18 @@ public class User {
 
 
     @OneToMany(mappedBy = "leaderId")
-    private List<Team> ledTeams;
+    private List<Team2> ledTeams;
 
 
     @OneToMany(mappedBy = "userId")
-    private List<TeamMember> teamMembers;
+    private List<TeamMember2> teamMembers;
 
     @OneToMany(mappedBy = "creatorId")
-    private List<Quest> createdQuests;
+    private List<Quest2> createdQuests;
 
     @OneToMany(mappedBy = "userId")
-    private List<Submission> submissions;
+    private List<Submission2> submissions;
 
     @OneToMany(mappedBy = "userId")
-    private List<Chat> chats;
+    private List<Chat2> chats;
 }

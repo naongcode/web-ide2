@@ -1,4 +1,4 @@
-package com.example.myapp.entity;
+package com.example.myapp.IDE.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

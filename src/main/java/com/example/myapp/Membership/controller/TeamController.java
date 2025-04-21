@@ -2,10 +2,9 @@ package com.example.myapp.Membership.controller;
 
 import com.example.myapp.Membership.dto.TeamCreateRequest;
 import com.example.myapp.Membership.dto.TeamJoinRequest;
-import com.example.myapp.Membership.entity.Team;
-import com.example.myapp.Membership.entity.User;
+import com.example.myapp.Membership.entity.Team2;
+import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.TeamService;
-import com.example.myapp.Membership.util.JwtAuthFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,8 @@ public class TeamController {
             // JwtAuthFilter에서 넣어준 userId 꺼냄
             String userId = (String) httpServletRequest.getAttribute("userId");
 
-            Team team = teamService.createTeam(request, userId);
-            return ResponseEntity.ok(team);
+            Team2 team2 = teamService.createTeam(request, userId);
+            return ResponseEntity.ok(team2);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 생성 실패: " + e.getMessage());
         }
@@ -41,8 +40,8 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity<?> getTeamInfo(@PathVariable Integer teamId) {
         try {
-            Team team = teamService.getTeamById(teamId);
-            return ResponseEntity.ok(team);
+            Team2 team2 = teamService.getTeamById(teamId);
+            return ResponseEntity.ok(team2);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 조회 실패: " + e.getMessage());
         }
@@ -51,7 +50,7 @@ public class TeamController {
     @GetMapping("/{teamId}/member")
     public ResponseEntity<?> getTeamMembers(@PathVariable Integer teamId) {
         try {
-            List<User> members = teamService.getTeamMembers(teamId);
+            List<User2> members = teamService.getTeamMembers(teamId);
             return ResponseEntity.ok(members);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀원 조회 실패: " + e.getMessage());
@@ -71,8 +70,8 @@ public class TeamController {
     @GetMapping("/list")
     public ResponseEntity<?> getTeamList() {
         try {
-            List<Team> teams = teamService.getAllTeams();
-            return ResponseEntity.ok(teams);
+            List<Team2> team2s = teamService.getAllTeams();
+            return ResponseEntity.ok(team2s);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 리스트 조회 실패: " + e.getMessage());
         }

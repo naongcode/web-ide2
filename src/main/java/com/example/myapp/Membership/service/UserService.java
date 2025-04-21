@@ -1,11 +1,11 @@
 package com.example.myapp.Membership.service;
 
 import com.example.myapp.Membership.dto.*;
-import com.example.myapp.Membership.entity.TeamMember;
-import com.example.myapp.Membership.repository.TeamMemberRepository;
+import com.example.myapp.Membership.entity.TeamMember2;
+import com.example.myapp.Membership.repository.TeamMemberRepository2;
 import com.example.myapp.Membership.util.JwtTokenProvider;
-import com.example.myapp.Membership.entity.User;
-import com.example.myapp.Membership.repository.UserRepository;
+import com.example.myapp.Membership.entity.User2;
+import com.example.myapp.Membership.repository.UserRepository2;
 import com.example.myapp.Membership.util.PasswordUtil;
 import com.example.myapp.Membership.util.TierUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,20 +21,20 @@ import java.util.Random;
 @Transactional
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository2 userRepository;
     private final EmailService emailService;
-    private final TeamMemberRepository teamMemberRepository;
+    private final TeamMemberRepository2 teamMemberRepository2;
     private final SolvedAcService solvedAcService;
 
-    public UserService(UserRepository userRepository, EmailService emailService, TeamMemberRepository teamMemberRepository, SolvedAcService solvedAcService) {
+    public UserService(UserRepository2 userRepository, EmailService emailService, TeamMemberRepository2 teamMemberRepository2, SolvedAcService solvedAcService) {
         this.userRepository = userRepository;
         this.emailService = emailService;
-        this.teamMemberRepository = teamMemberRepository;
+        this.teamMemberRepository2 = teamMemberRepository2;
         this.solvedAcService = solvedAcService;
     }
 
     //회원가입 로직
-    public User register(RegisterRequest request) {
+    public User2 register(RegisterRequest request) {
         if (userRepository.existsByUserId(request.getUserId())) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
@@ -50,7 +50,7 @@ public class UserService {
         String tier = TierUtil.convertTier(tierNumber);
         Date lastTierUpdatedAt = new Date();
 
-        User user = User.builder()
+        User2 user2 = User2.builder()
                 .userId(request.getUserId())
                 .nickname(request.getNickname())
                 .email(request.getEmail())
@@ -59,7 +59,7 @@ public class UserService {
                 .lastTierUpdatedAt(lastTierUpdatedAt)
                 .build();
 
-        return userRepository.save(user);
+        return userRepository.save(user2);
     }
 
     // 아이디 중복 로직
@@ -75,54 +75,54 @@ public class UserService {
 
     //로그인 로직
     public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByUserId(request.getUserId())
+        User2 user2 = userRepository.findByUserId(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 잘못되었습니다."));
 
         String hashedPassword = PasswordUtil.hashPassword(request.getPassword());
 
         // bcrypt 비밀번호 비교
-        if (!PasswordUtil.verifyPassword(request.getPassword(), user.getHashedPassword())) {
+        if (!PasswordUtil.verifyPassword(request.getPassword(), user2.getHashedPassword())) {
             throw new IllegalArgumentException("비밀번호가 잘못되었습니다.");
         }
 
         // 티어 갱신 로직 추가
         Date now = new Date();
-        Date lastUpdated = user.getLastTierUpdatedAt();
+        Date lastUpdated = user2.getLastTierUpdatedAt();
 
         boolean shouldUpdateTier = (lastUpdated == null) ||
                 (now.getTime() - lastUpdated.getTime() > 24 * 60 * 60 * 1000L); // 24시간 지났는지
 
         if (shouldUpdateTier) {
             try {
-                int tierNumber = solvedAcService.fetchTier(user.getUserId());
+                int tierNumber = solvedAcService.fetchTier(user2.getUserId());
                 String latestTier = TierUtil.convertTier(tierNumber);
-                user.setTier(latestTier);
-                user.setLastTierUpdatedAt(now);
-                userRepository.save(user);
+                user2.setTier(latestTier);
+                user2.setLastTierUpdatedAt(now);
+                userRepository.save(user2);
             } catch (Exception e) {
                 log.warn("티어 정보 갱신 실패 (무시하고 로그인 진행): {}", e.getMessage());
             }
         }
 
         // JWT 생성(아이디와 티어정보를 같이 가지고 있음)
-        String token = JwtTokenProvider.createToken(user.getUserId(), user.getTier());
+        String token = JwtTokenProvider.createToken(user2.getUserId(), user2.getTier());
 
         return new LoginResponse(token, "로그인 성공");
     }
 
     //아이디 찾기 로직
     public FindIdResponse findUserIdByEmail(FindIdRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User2 user2 = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("해당 이메일에 대한 아이디가 없습니다."));
-        return new FindIdResponse(user.getUserId());
+        return new FindIdResponse(user2.getUserId());
     }
 
     //비밀번호 재설정하여 이메일로 보내는 로직
     public void resetPasswordAndSendEmail(FindPasswordRequest request) {
-        User user = userRepository.findByUserId(request.getUserId())
+        User2 user2 = userRepository.findByUserId(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
 
-        if (!user.getEmail().equals(request.getEmail())) {
+        if (!user2.getEmail().equals(request.getEmail())) {
             throw new IllegalArgumentException("이메일이 일치하지 않습니다.");
         }
 
@@ -131,8 +131,8 @@ public class UserService {
         String hashedPassword = PasswordUtil.hashPassword(tempPassword);
 
         //비밀번호 갱신하는 로직
-        user.setHashedPassword(hashedPassword);
-        userRepository.save(user);
+        user2.setHashedPassword(hashedPassword);
+        userRepository.save(user2);
 
         //이메일 전송(임시 비밀번호도 같이)
         emailService.sendTempPasswordEmail(request.getEmail(), tempPassword);
@@ -153,10 +153,10 @@ public class UserService {
 
     //유저정보조회 로직
     public UserInfoResponse getUserInfo(String userId) {
-        User user = userRepository.findByUserId(userId)
+        User2 user2 = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 입니다."));
 
-        Optional<TeamMember> teamMember = teamMemberRepository.findByUserId_UserId(userId);
+        Optional<TeamMember2> teamMember = teamMemberRepository2.findByUserId_UserId(userId);
         Integer teamId = teamMember.map(tm -> tm.getTeamId().getTeamId()).orElse(null); //수정
 
 
@@ -166,12 +166,12 @@ public class UserService {
             currentTier = TierUtil.convertTier(tierNumber);
         } catch (Exception e) {
             log.warn("티어 최신 정보 조회 실패, 기존 DB 값 사용: {}", e.getMessage());
-            currentTier = user.getTier();
+            currentTier = user2.getTier();
         }
 
         return new UserInfoResponse(
-                user.getNickname(),
-                user.getEmail(),
+                user2.getNickname(),
+                user2.getEmail(),
                 currentTier,
                 teamId
         );

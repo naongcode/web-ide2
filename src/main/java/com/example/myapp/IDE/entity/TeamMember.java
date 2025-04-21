@@ -1,14 +1,16 @@
-package com.example.myapp.entity;
+package com.example.myapp.IDE.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "chat")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Chat {
+@Table(name = "teamMember")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class TeamMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +23,4 @@ public class Chat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    private String nickname;
-
-    private String message;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
-    private Date createdAt;
 }

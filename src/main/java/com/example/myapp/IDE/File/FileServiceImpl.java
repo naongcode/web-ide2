@@ -1,13 +1,13 @@
 package com.example.myapp.IDE.File;
 
 import com.example.myapp.IDE.Folder.Folder;
-import com.example.myapp.IDE.repository.FolderRepository;
-import com.example.myapp.IDE.repository.FileRepository;
-import com.example.myapp.entity.User;
+import com.example.myapp.IDE.entity.Quest;
+import com.example.myapp.IDE.entity.Submission;
+import com.example.myapp.repository.FolderRepository;
+import com.example.myapp.repository.FileRepository;
+import com.example.myapp.IDE.entity.User;
 import com.example.myapp.repository.SubmissionRepository;
 import com.example.myapp.repository.QuestRepository;
-import com.example.myapp.entity.Submission;
-import com.example.myapp.entity.Quest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

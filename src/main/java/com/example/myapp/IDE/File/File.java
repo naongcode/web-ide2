@@ -1,7 +1,8 @@
 package com.example.myapp.IDE.File;
 
 import com.example.myapp.IDE.Folder.Folder;
-import com.example.myapp.entity.Submission;
+import com.example.myapp.IDE.entity.Quest;
+import com.example.myapp.IDE.entity.Submission;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,4 +58,8 @@ public class File {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    @Column(name = "code_content")
+    private String codeContent;
+
 }
