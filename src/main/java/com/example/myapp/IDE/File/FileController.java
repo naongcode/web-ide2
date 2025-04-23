@@ -36,11 +36,14 @@ public class FileController {
                 .folderId(file.getFolder() != null ? file.getFolder().getFolderId() : null)
                 .fileName(file.getFileName())
                 .language(file.getLanguage())
-                .teamId(file.getTeamId())
+                .teamId(teamId) //수정 -> 경로 변수에 있는 팀 아이디 가지고옴
                 .questId(file.getQuestId())
-                .userId(file.getUserId())
+                .userId(userId) //수정 -> 경로 변수에 있는 유저 아이디 가지고옴
                 .createdAt(file.getCreatedAt())
                 .build();
+
+        logger.info("📤 Returning Response: folderId={}",
+                file.getFolder() != null ? file.getFolder().getFolderId() : "null");
 
         return ResponseEntity.ok(response);
     }

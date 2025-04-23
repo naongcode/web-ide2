@@ -38,21 +38,22 @@ public class QuestionResponseDto {
     @JsonProperty("quest_status")
     private String questStatus;  // 필드명 카멜케이스로 변경
 
+    @JsonProperty("is_submitted")
+    private boolean isSubmitted; // 유저가 제출했는지 여부 추가
+
     // 오늘 날짜와 마감 날짜를 비교하여 questStatus 설정
     public void setQuestStatus() {
         LocalDate today = LocalDate.now();
         if (questDue.isBefore(today)) {
-            this.questStatus = QuestStatus.COMPLETE.name();  // Enum 값을 String으로 변환
-        } else if (questStart.isBefore(today) && questDue.isAfter(today)) {
-            this.questStatus = QuestStatus.ONGOING.name();
+            this.questStatus = QuestStatus.COMPLETED.name();  // Enum 값을 String으로 변환
         } else {
-            this.questStatus = QuestStatus.READY.name();
+            this.questStatus = QuestStatus.IN_PROGRESS.name();
         }
     }
 
     // 추가적인 생성자 및 필요한 메서드
     public QuestionResponseDto(Long questId, String questName, String creatorId, Long teamId,
-                               LocalDate questStart, LocalDate questDue, String questLink) {
+                               LocalDate questStart, LocalDate questDue, String questLink, boolean isSubmitted) {
         this.questId = questId;
         this.teamId = teamId;
         this.questName = questName;
@@ -61,5 +62,7 @@ public class QuestionResponseDto {
         this.questDue = questDue;
         this.questLink = questLink;
         setQuestStatus();  // 상태 자동 설정
+        this.isSubmitted = isSubmitted;  // 유저 제출 여부 추가
     }
+
 }

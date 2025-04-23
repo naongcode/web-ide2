@@ -19,17 +19,8 @@ public class Question {
     @Column(name = "quest_id")
     private Long questId;
 
-    @Column(name = "team_id")
-    private Long teamId;
-
     @Column(name = "creator_id")
     private String creatorId;
-
-    @Column(name = "quest_name")
-    private String questName;
-
-    @Column(name = "quest_start")
-    private LocalDate questStart;
 
     @Column(name = "quest_due")
     private LocalDate questDue;
@@ -37,7 +28,16 @@ public class Question {
     @Column(name = "quest_link")
     private String questLink;
 
+    @Column(name = "quest_name")
+    private String questName;
+
+    @Column(name = "quest_start")
+    private LocalDate questStart;
+
     @Column(name = "quest_status")
     @Enumerated(EnumType.STRING)
     private QuestStatus questStatus;
+
+    @Column(name = "team_id")
+    private Long teamId;
 }

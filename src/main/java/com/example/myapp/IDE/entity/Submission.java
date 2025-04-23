@@ -19,7 +19,7 @@ public class Submission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "submit_id")
+    @Column(name = "submission_id") //수정 submit_id -> submission_id
     private Integer submissionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,5 +45,8 @@ public class Submission {
 
     @OneToMany(mappedBy = "submission")
     private List<File> files;
+
+    @Column(name = "language")
+    private String language;
 
 }

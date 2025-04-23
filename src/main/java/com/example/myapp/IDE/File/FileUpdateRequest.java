@@ -9,6 +9,6 @@ public class FileUpdateRequest {
 
     private Long folderId;
     private Long fileId;
-    private String content;
+    private String context;  //수정 -> codeContext
     private String fileName; // 🔹 추가됨
 }

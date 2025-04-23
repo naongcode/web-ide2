@@ -3,6 +3,8 @@ package com.example.myapp.Membership.controller;
 import com.example.myapp.Membership.dto.*;
 import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.UserService;
+import com.example.myapp.Membership.util.extractInfoFromToken;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,19 +48,22 @@ public class AuthController {
 
 
     // 아이디 중복 엔드포인트
-    @GetMapping("/check-id/{userId}")
-    public ResponseEntity<?> checkUserIdDuplicate(@PathVariable("userId") String userId) {
+    @GetMapping("/check-id")
+    public ResponseEntity<?> checkUserIdDuplicate(HttpServletRequest request) {
         try {
+            String token = request.getHeader("Authorization").replace("Bearer ", "");
+            String userId = extractInfoFromToken.extractUserIdFromToken(token); // 수정 -> 토큰에서 꺼냄
+
             boolean isDuplicate = userService.isUserIdDuplicate(userId);
-            CheckUserIdResponse response = new CheckUserIdResponse(isDuplicate);
-            return ResponseEntity.ok(response);  // CheckUserIdResponse 객체를 반환
+            return ResponseEntity.ok(new CheckUserIdResponse(isDuplicate));
         } catch (Exception e) {
             log.error("Error checking user ID: ", e);
-            // 예외 발생 시에도 CheckUserIdResponse 형태로 반환
-            CheckUserIdResponse response = new CheckUserIdResponse(false); // 기본값 false로 설정
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);  // 오류 시에도 CheckUserIdResponse 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new CheckUserIdResponse(false));
         }
     }
+
+
 
     //로그인 엔드포인트
     @PostMapping("/login")
@@ -86,9 +91,15 @@ public class AuthController {
     //비밀번호 찾기 엔드포인트
     @PostMapping("/find-password")
     public ResponseEntity<?> findPassword(@RequestBody FindPasswordRequest request) {
-        userService.resetPasswordAndSendEmail(request);
-        return ResponseEntity.ok(Map.of("success", true));
+        try {
+            userService.resetPasswordAndSendEmail(request);
+            return ResponseEntity.ok(Map.of("success", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false, "message", e.getMessage()));
+        }
     }
+
 
     //로그아웃 엔드포인트
     @PostMapping("/logout")

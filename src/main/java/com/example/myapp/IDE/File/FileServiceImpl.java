@@ -42,11 +42,14 @@ public class FileServiceImpl implements FileService {
                 .folder(folder)
                 .fileName(request.getFileName())
                 .language(request.getLanguage())
-                .teamId(request.getTeamId())
+                //.teamId(request.getTeamId()) -> 주석처리
                 .questId(request.getQuestId())
-                .userId(request.getUserId())
+                //.userId(request.getUserId()) -> 주석처리
+                .submission(submission) //추가 -> submission_id 인식을 위함
                 .createdAt(new Date())
                 .build();
+
+        System.out.println("📦 File will be saved with folder: " + (folder != null ? folder.getFolderId() : "null"));
 
         return fileRepository.save(file);
     }
@@ -66,8 +69,8 @@ public class FileServiceImpl implements FileService {
             file.setFileName(request.getFileName());
         }
 
-        if (request.getContent() != null) {
-            file.setContent(request.getContent());
+        if (request.getContext() != null) { //수정 -> codeContext
+            file.setCodeContext(request.getContext());
         }
 
         file.setUpdatedAt(new Date());

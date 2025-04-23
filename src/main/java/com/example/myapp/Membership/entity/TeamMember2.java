@@ -16,6 +16,7 @@ public class TeamMember2 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id") // 팀 참가 안되서 추가함
     private Integer memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)

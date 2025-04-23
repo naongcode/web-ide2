@@ -54,6 +54,7 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .output(executionResult) // 코드 실행 결과 저장
                 .submittedAt(new Date())
                 .isCompleted(request.getIsCompleted())
+                .language(request.getLanguage())
                 .build();
 
         // 저장해라.

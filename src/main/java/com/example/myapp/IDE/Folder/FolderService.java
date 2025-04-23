@@ -6,50 +6,32 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.example.myapp.repository.FolderRepository;
 @Service
-@RequiredArgsConstructor
 public class FolderService {
 
     private final FolderRepository folderRepository;
 
-    // SLF4J Logger 추가
-    private static final Logger logger = LoggerFactory.getLogger(FolderService.class);
+    public FolderService(FolderRepository folderRepository) {
+        this.folderRepository = folderRepository;
+    }
 
     public Folder createFolder(FolderCreateRequest request) {
         Folder parentFolder = null;
+        Long parentId = request.getParentId();
 
-        logger.info("Received request to create folder: teamId={}, questId={}, userId={}, folderName={}",
-                request.getTeamId(), request.getQuestId(), request.getUserId(), request.getFolderName());
-
-        // 부모 폴더가 있는 경우, 해당 폴더를 찾음
-        if (request.getParentId() != 0) {
-            try {
-                parentFolder = folderRepository.findById(request.getParentId())
-                        .orElseThrow(() -> new IllegalArgumentException("부모 폴더가 존재하지 않습니다."));
-                logger.info("Parent folder found: parentFolderId={}", parentFolder.getFolderId());
-            } catch (IllegalArgumentException e) {
-                logger.error("Error while finding parent folder: {}", e.getMessage());
-                throw e;
-            }
-        } else {
-            logger.info("No parent folder specified, creating root folder.");
+        // 수정 부분 -> parentId가 null이면 루트 폴더 생성
+        if (parentId != null) {
+            parentFolder = folderRepository.findById(parentId)
+                    .orElseThrow(() -> new IllegalArgumentException("부모 폴더가 존재하지 않습니다."));
         }
 
-        // 새 폴더 생성
-        Folder folder = Folder.builder()
-                .teamId(request.getTeamId())
-                .questId(request.getQuestId())
-                .userId(request.getUserId())
+        Folder newFolder = Folder.builder()
+                //.teamId(request.getTeamId())
+                //.questId(request.getQuestId()) 팀, 퀘스트, 유저 정보 추가(사용하지 않는 정보 즉, 데이터베이스에는 컬럼이 없음)
+                //.userId(request.getUserId())
                 .folderName(request.getFolderName())
-                .parentId(parentFolder)
+                .parentId(parentFolder) // parentId가 null이면 parent는 null
                 .build();
 
-        logger.info("Saving new folder: folderName={}, teamId={}, questId={}", folder.getFolderName(), folder.getTeamId(), folder.getQuestId());
-
-        // 폴더 저장
-        Folder savedFolder = folderRepository.save(folder);
-
-        logger.info("Folder created successfully: folderId={}", savedFolder.getFolderId());
-
-        return savedFolder;
+        return folderRepository.save(newFolder);
     }
 }

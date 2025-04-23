@@ -1,5 +1,6 @@
 package com.example.myapp.question;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,10 +32,12 @@ public class QuestionRequestDto {
     private String questName;
 
     @NotNull(message = "문제 시작 날짜는 필수입니다.")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonProperty("quest_start")
     private LocalDate questStart;
 
-    @NotNull(message = "문제 마감 날짜는 필수입니다.")
+//    @NotNull(message = "문제 마감 날짜는 필수입니다.")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonProperty("quest_due")
     private LocalDate questDue;
 

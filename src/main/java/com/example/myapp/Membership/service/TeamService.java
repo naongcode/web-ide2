@@ -55,7 +55,7 @@ public class TeamService {
         Team2 team2 = teamRepository.findById(teamId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 팀이 존재하지 않습니다."));
 
-        return team2.getTeamMembers().stream() // 'teamMembers' 리스트를 사용
+        return team2.getTeamMembers().stream()
                 .map(TeamMember2::getUserId)
                 .collect(Collectors.toList());
     }

@@ -36,12 +36,12 @@ public class FolderController {
         // 응답 DTO 생성
         FolderCreateResponse response = FolderCreateResponse.builder()
                 .folderId(folder.getFolderId())
-                .teamId(folder.getTeamId())
-                .questId(folder.getQuestId())
-                .userId(folder.getUserId())
                 .folderName(folder.getFolderName())
                 .parentId(folder.getParentId() != null ? folder.getParentId().getFolderId() : 0L)
                 .createdAt(folder.getCreatedAt())
+//                .teamId(folder.getTeamId()) 팀, 퀘스트, 유저 정보 추가(사용하지 않는 정보 즉, 데이터베이스에는 컬럼이 없음)
+//                .questId(folder.getQuestId())
+//                .userId(folder.getUserId())
                 .build();
 
         return ResponseEntity.ok(response);

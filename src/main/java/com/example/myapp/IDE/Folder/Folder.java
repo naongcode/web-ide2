@@ -25,15 +25,15 @@ public class Folder {
     @Column(name = "folder_id")
     private Long folderId;
 
-    // 팀, 퀘스트, 유저 정보 추가
-    @Column(name = "team_id", nullable = false)
-    private Long teamId;
-
-    @Column(name = "quest_id", nullable = false)
-    private Long questId;
-
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    // 팀, 퀘스트, 유저 정보 추가(사용하지 않는 정보 즉, 데이터베이스에는 컬럼이 없음)
+//    @Column(name = "team_id", nullable = false)
+//    private Long teamId;
+//
+//    @Column(name = "quest_id", nullable = false)
+//    private Long questId;
+//
+//    @Column(name = "user_id", nullable = false)
+//    private String userId;
 
     @Column(name = "folder_name", nullable = false)
     private String folderName;
