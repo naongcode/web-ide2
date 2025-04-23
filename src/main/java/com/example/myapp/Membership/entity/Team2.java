@@ -1,5 +1,6 @@
 package com.example.myapp.Membership.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class Team2 {
 
     @ManyToOne
     @JoinColumn(name = "leader_id", nullable = false)
+    @JsonManagedReference // 추가
     private User2 leaderId;
 
     @Column(name = "team_tier", length = 20)

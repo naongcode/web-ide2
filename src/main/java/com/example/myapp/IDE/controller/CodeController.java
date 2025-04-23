@@ -22,17 +22,13 @@ public class CodeController {
     private final CodeService codeService;
 
     //코드목록조회 엔드포인트
-    @GetMapping("/{quest_id}")
+    @GetMapping("/{questId}/{userId}")
     public ResponseEntity<List<FolderInfo>> getCodeIndex(
-            @PathVariable("quest_id") Long questId,
-            @RequestHeader("Authorization") String authorizationHeader
+            @PathVariable("questId") Long questId,
+            @PathVariable("userId") String userId
     ) {
-        String token = authorizationHeader.replace("Bearer ", "");
-        String userId = extractInfoFromToken.extractUserIdFromToken(token);
-
         return ResponseEntity.ok(codeService.getCodeIndex(questId, userId));
     }
-
 
 
     // 코드상태변경 엔드포인트 수정 - > userId를 토큰에서 얻는 방식

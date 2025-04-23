@@ -40,6 +40,7 @@ public class FileController {
                 .questId(file.getQuestId())
                 .userId(userId) //수정 -> 경로 변수에 있는 유저 아이디 가지고옴
                 .createdAt(file.getCreatedAt())
+                .submitId(file.getSubmission() != null ? file.getSubmission().getSubmissionId().longValue() : null)
                 .build();
 
         logger.info("📤 Returning Response: folderId={}",

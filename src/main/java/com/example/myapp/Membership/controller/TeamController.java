@@ -1,10 +1,13 @@
 package com.example.myapp.Membership.controller;
 
+
 import com.example.myapp.Membership.dto.TeamCreateRequest;
+import com.example.myapp.Membership.dto.TeamCreateResponse;
 import com.example.myapp.Membership.dto.TeamJoinRequest;
 import com.example.myapp.Membership.entity.Team2;
 import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.TeamService;
+import com.example.myapp.Membership.util.extractInfoFromToken;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,17 +34,29 @@ public class TeamController {
             String userId = (String) httpServletRequest.getAttribute("userId");
 
             Team2 team2 = teamService.createTeam(request, userId);
-            return ResponseEntity.ok(team2);
+            // TeamCreateResponse DTO로 변환하여 반환
+            TeamCreateResponse response = new TeamCreateResponse(
+                    team2.getTeamId(),
+                    team2.getTeamName(),
+                    team2.getTeamDescription(),
+                    team2.getMaxMember(),
+                    team2.getCurrentMemberCount(),
+                    team2.getLeaderId().getUserId()
+            );
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 생성 실패: " + e.getMessage());
         }
     }
 
+
+
+
     @GetMapping("/{teamId}")
     public ResponseEntity<?> getTeamInfo(@PathVariable Integer teamId) {
         try {
-            Team2 team2 = teamService.getTeamById(teamId);
-            return ResponseEntity.ok(team2);
+            Team2 team = teamService.getTeamById(teamId);
+            return ResponseEntity.ok(team);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 조회 실패: " + e.getMessage());
         }
@@ -68,12 +83,14 @@ public class TeamController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getTeamList() {
+    public ResponseEntity<?> getAllTeams(@RequestHeader("Authorization") String token) {
         try {
-            List<Team2> team2s = teamService.getAllTeams();
-            return ResponseEntity.ok(team2s);
+            String userId = extractInfoFromToken.extractUserIdFromToken(token);
+            List<TeamCreateResponse> teams = teamService.getAllTeams(userId);
+            return ResponseEntity.ok(teams);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 리스트 조회 실패: " + e.getMessage());
         }
     }
+
 }

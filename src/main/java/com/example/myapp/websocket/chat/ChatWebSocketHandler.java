@@ -40,6 +40,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         // session은 연결을 나타내는 객체, message가 수신한 텍스트
         // JSON 메세지를 java 객체로 변환
         String payload = message.getPayload();
+        System.out.println("📥 수신된 메시지 (raw): " + payload);
+
         MessageRequest request = mapper.readValue(payload, MessageRequest.class);
 
         try {

@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/user")
@@ -19,10 +18,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    //유저정보조회 엔드포인트
+    // 유저 정보 조회 엔드포인트
     @GetMapping
     public ResponseEntity<UserInfoResponse> getUserInfo(HttpServletRequest request) {
-        String userId = (String) request.getAttribute("userId"); //수정 - > userId 토큰에서만 받아오게함(프론트에서는 모르기때문임)
+        // 수정 -> Authorization 헤더에서 토큰 추출
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String token = authorizationHeader.substring(7); // "Bearer " 이후의 토큰 값
+        String userId = extractInfoFromToken.extractUserIdFromToken(token);
+
         UserInfoResponse response = userService.getUserInfo(userId);
         return ResponseEntity.ok(response);
     }

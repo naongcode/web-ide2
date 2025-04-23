@@ -2,6 +2,7 @@ package com.example.myapp.Membership.entity;
 
 import com.example.myapp.IDE.entity.Quest;
 import com.example.myapp.IDE.entity.Submission;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,17 +28,18 @@ public class User2 {
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 255)
-    private String Password;
+    @Column(name = "password", nullable = false, length = 255) //hashed_password -> password로 수정
+    private String hashedPassword;
 
     @Column(name = "tier", length = 20)
     private String tier;
 
-    @Column(name = "last_tier_updated_at") // 이 부분이 중요
+    @Column(name = "last_tier_updated_at") 
     private Date lastTierUpdatedAt;
 
 
     @OneToMany(mappedBy = "leaderId")
+    @JsonManagedReference
     private List<Team2> ledTeams;
 
 

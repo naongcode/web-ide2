@@ -1,6 +1,7 @@
 package com.example.myapp.Membership.service;
 
 import com.example.myapp.Membership.dto.TeamCreateRequest;
+import com.example.myapp.Membership.dto.TeamCreateResponse;
 import com.example.myapp.Membership.entity.Team2;
 import com.example.myapp.Membership.entity.TeamMember2;
 import com.example.myapp.Membership.entity.User2;
@@ -23,6 +24,13 @@ public class TeamService {
         this.teamRepository = teamRepository;
         this.userRepository = userRepository;
         this.teamMemberRepository2 = teamMemberRepository2;
+    }
+
+    public List<TeamCreateResponse> getAllTeams(String currentUserId) {
+        List<Team2> teams = teamRepository.findAll();
+        return teams.stream()
+                .map(team -> new TeamCreateResponse(team, currentUserId))
+                .collect(Collectors.toList());
     }
 
 
