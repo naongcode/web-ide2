@@ -94,7 +94,12 @@ public class TeamController {
     @GetMapping("/list")
     public ResponseEntity<?> getAllTeams(@RequestHeader("Authorization") String token) {
         try {
-            String userId = extractInfoFromToken.extractUserIdFromToken(token);
+            // 토큰 앞뒤 공백 제거
+            String trimmedToken = token != null ? token.trim() : null;
+            if (trimmedToken == null || trimmedToken.isEmpty()) {
+                return ResponseEntity.badRequest().body("팀 리스트 조회 실패: Authorization 토큰이 없습니다.");
+            }
+            String userId = extractInfoFromToken.extractUserIdFromToken(trimmedToken);
             List<TeamCreateResponse> teams = teamService.getAllTeams(userId);
             return ResponseEntity.ok(teams);
         } catch (Exception e) {
