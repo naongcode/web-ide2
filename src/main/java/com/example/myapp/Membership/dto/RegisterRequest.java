@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegisterRequest {
-    private String userId;
+    private String user_id; //수정(스네이크로)
     private String email;
     private String password;  // 실제 비밀번호 (회원가입 시 사용, 저장 시 해싱)
     private String nickname;

@@ -75,7 +75,7 @@ public class TeamController {
     @PostMapping("/join")
     public ResponseEntity<?> joinTeam(@RequestBody TeamJoinRequest request) {
         try {
-            String result = teamService.joinTeam(request.getUserId(), request.getTeamId());
+            String result = teamService.joinTeam(request.getUser_id(), request.getTeam_id()); //수정(스네이크로)
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 참가 실패: " + e.getMessage());

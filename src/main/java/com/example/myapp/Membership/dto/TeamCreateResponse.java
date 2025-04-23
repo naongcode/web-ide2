@@ -7,19 +7,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TeamCreateResponse {
-    private Integer teamId;
-    private String teamName;
-    private String teamDescription;
-    private int maxMember;
-    private int currentMemberCount;
-    private String leaderNickname;
+    private Integer team_id; //수정(스네이크로)
+    private String team_name; //수정(스네이크로)
+    private String team_description; //수정(스네이크로)
+    private int max_member; //수정(스네이크로)
+    private int current_member_count; //수정(스네이크로)
+    private String leader_nickname; //수정(스네이크로)
 
     public TeamCreateResponse(Team2 team, String currentUserId) {
-        this.teamId = team.getTeamId();
-        this.teamName = team.getTeamName();
-        this.teamDescription = team.getTeamDescription();
-        this.maxMember = team.getMaxMember();
-        this.currentMemberCount = team.getCurrentMemberCount();
+        this.team_id = team.getTeamId();
+        this.team_name = team.getTeamName();
+        this.team_description = team.getTeamDescription();
+        this.max_member = team.getMaxMember();
+        this.current_member_count = team.getCurrentMemberCount();
 
     }
 

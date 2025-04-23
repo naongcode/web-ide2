@@ -63,7 +63,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         // 응답 DTO에 전달
         return SubmissionResponse.builder()
-                .submissionId(submission.getSubmissionId())
+                .submission_id(submission.getSubmissionId()) //수정(스네이크로)
                 .output(submission.getOutput())
                 .language(request.getLanguage())
                 .submittedAt(submission.getSubmittedAt())

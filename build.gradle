@@ -14,7 +14,6 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'  // Spring Web 의존성
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -32,6 +31,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.12.3'
     implementation 'org.springframework.boot:spring-boot-starter-mail'// JavaMailSender
     implementation 'at.favre.lib:bcrypt:0.9.0'
+    implementation 'com.mysql:mysql-connector-j' // MySQL 예시
 }
 
 jar {

@@ -29,12 +29,12 @@ public class FileServiceImpl implements FileService {
     @Override
     public File createFile(FileCreateRequest request) {
         Folder folder = null;
-        if (request.getFolderId() != null) {
-            folder = folderRepository.findById(request.getFolderId())
+        if (request.getFolder_id() != null) {
+            folder = folderRepository.findById(request.getFolder_id()) //수정(스네이크로)
                     .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
         }
 
-        Submission submission = submissionRepository.findByQuest_questIdAndUser_UserId(request.getQuestId(), request.getUserId())
+        Submission submission = submissionRepository.findByQuest_questIdAndUser_UserId(request.getQuest_id(), request.getUser_id()) //수정(스네이크로)
                 .orElseThrow(() -> new IllegalArgumentException("Submission not found"));
 
         // Quest와 User 정보는 Submission에서 가져올 수 있음
@@ -43,10 +43,10 @@ public class FileServiceImpl implements FileService {
 
         File file = File.builder()
                 .folder(folder)
-                .fileName(request.getFileName())
+                .fileName(request.getFile_name()) //수정(스네이크로)
                 .language(request.getLanguage())
                 //.teamId(request.getTeamId()) -> 주석처리
-                .questId(request.getQuestId())
+                .questId(request.getQuest_id()) //수정(스네이크로)
                 //.userId(request.getUserId()) -> 주석처리
                 .submission(submission) //추가 -> submission_id 인식을 위함
                 .createdAt(new Date())
@@ -59,21 +59,21 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public File updateFile(FileUpdateRequest request) {
-        File file = fileRepository.findById(request.getFileId())
+        File file = fileRepository.findById(request.getFile_id()) //수정(스네이크로)
                 .orElseThrow(() -> new IllegalArgumentException("File not found"));
 
-        if (request.getFolderId() != null) {
-            Folder folder = folderRepository.findById(request.getFolderId())
+        if (request.getFolder_id() != null) { //수정(스네이크로)
+            Folder folder = folderRepository.findById(request.getFolder_id()) //수정(스네이크로)
                     .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
             file.setFolder(folder);
         }
 
-        if (request.getFileName() != null) {
-            file.setFileName(request.getFileName());
+        if (request.getFile_name() != null) { //수정(스네이크로)
+            file.setFileName(request.getFile_name()); //수정(스네이크로)
         }
 
-        if (request.getContext() != null) { //수정 -> codeContext
-            file.setCodeContext(request.getContext());
+        if (request.getCode_context() != null) { //수정(스네이크로)
+            file.setCodeContext(request.getCode_context()); //수정(스네이크로)
         }
 
         file.setUpdatedAt(new Date());

@@ -10,6 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FindPasswordRequest {
-    private String userId;
+    private String user_id; //수정(스네이크로)
     private String email;
 }

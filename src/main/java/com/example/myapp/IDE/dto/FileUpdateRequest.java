@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class FileUpdateRequest {
 
-    private Long folderId;
-    private Long fileId;
-    private String context;  //수정 -> codeContext
-    private String fileName; // 🔹 추가됨
+    private Long folder_id; //수정(스네이크로)
+    private Long file_id; //수정(스네이크로)
+    private String code_context;  //수정 -> codeContext ,초기 context
+    private String file_name; // 🔹 추가됨, 수정(스네이크로)
 }

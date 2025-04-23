@@ -35,7 +35,7 @@ public class UserService {
 
     //회원가입 로직
     public User2 register(RegisterRequest request) {
-        if (userRepository.existsByUserId(request.getUserId())) {
+        if (userRepository.existsByUserId(request.getUser_id())) { //수정(스네이크로)
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
 
@@ -44,17 +44,17 @@ public class UserService {
         }
 
         //bycrpt 해싱
-        String password = PasswordUtil.hashPassword(request.getPassword());
+        String hashedPassword = PasswordUtil.hashPassword(request.getPassword());//수정
 
-        int tierNumber = solvedAcService.fetchTier(request.getUserId());
+        int tierNumber = solvedAcService.fetchTier(request.getUser_id()); //수정(스네이크로)
         String tier = TierUtil.convertTier(tierNumber);
         Date lastTierUpdatedAt = new Date();
 
         User2 user2 = User2.builder()
-                .userId(request.getUserId())
+                .userId(request.getUser_id()) //수정(스네이크로)
                 .nickname(request.getNickname())
                 .email(request.getEmail())
-                .Password(password)
+                .hashedPassword(hashedPassword)//수정
                 .tier(tier)
                 .lastTierUpdatedAt(lastTierUpdatedAt)
                 .build();
@@ -75,13 +75,13 @@ public class UserService {
 
     //로그인 로직
     public LoginResponse login(LoginRequest request) {
-        User2 user2 = userRepository.findByUserId(request.getUserId())
+        User2 user2 = userRepository.findByUserId(request.getUser_id()) //수정(스네이크로)
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 잘못되었습니다."));
 
         String hashedPassword = PasswordUtil.hashPassword(request.getPassword());
 
         // bcrypt 비밀번호 비교
-        if (!PasswordUtil.verifyPassword(request.getPassword(), user2.getPassword())) {
+        if (!PasswordUtil.verifyPassword(request.getPassword(), user2.getHashedPassword())) {//수정
             throw new IllegalArgumentException("비밀번호가 잘못되었습니다.");
         }
 
@@ -119,7 +119,7 @@ public class UserService {
 
     //비밀번호 재설정하여 이메일로 보내는 로직
     public void resetPasswordAndSendEmail(FindPasswordRequest request) {
-        User2 user2 = userRepository.findByUserId(request.getUserId())
+        User2 user2 = userRepository.findByUserId(request.getUser_id()) //수정(스네이크로)
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
 
         if (!user2.getEmail().equals(request.getEmail())) {
@@ -131,7 +131,7 @@ public class UserService {
         String hashedPassword = PasswordUtil.hashPassword(tempPassword);
 
         //비밀번호 갱신하는 로직
-        user2.setPassword(hashedPassword);
+        user2.setHashedPassword(hashedPassword); //수정
         userRepository.save(user2);
 
         //이메일 전송(임시 비밀번호도 같이)

@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 @Data //수정(추가한거임)
 public class TeamCreateRequest {
-    private String teamName;
-    private String teamDescription;
-    private int maxMember;
-    private String teamTier;
+    private String team_name; //수정(스네이크로)
+    private String team_description; //수정(스네이크로)
+    private int max_member; //수정(스네이크로)
+    private String team_tier; //수정(스네이크로)
 }

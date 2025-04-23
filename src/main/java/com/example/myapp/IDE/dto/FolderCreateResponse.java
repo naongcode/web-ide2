@@ -11,17 +11,17 @@ import java.util.Date;
 @AllArgsConstructor
 public class FolderCreateResponse {
 
-    private Long folderId;
+    private Long folder_id; //수정(스네이크로)
 
-    private Long teamId;
+    private Long team_id; //수정(스네이크로)
 
-    private Long questId;
+    private Long quest_id; //수정(스네이크로)
 
-    private String userId;
+    private String user_id; //수정(스네이크로)
 
-    private String folderName;
+    private String folder_name; //수정(스네이크로)
 
-    private Long parentId;
+    private Long parent_id; //수정(스네이크로)
 
     private Date createdAt;
 }

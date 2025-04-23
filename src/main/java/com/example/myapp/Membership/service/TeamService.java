@@ -40,10 +40,10 @@ public class TeamService {
                 .orElseThrow(() -> new IllegalArgumentException("리더 유저를 찾을 수 없습니다."));
 
         Team2 team2 = Team2.builder()
-                .teamName(request.getTeamName())
-                .teamDescription(request.getTeamDescription())
-                .maxMember(request.getMaxMember())
-                .teamTier(request.getTeamTier())
+                .teamName(request.getTeam_name()) //수정(스네이크로)
+                .teamDescription(request.getTeam_description()) //수정(스네이크로)
+                .maxMember(request.getMax_member()) //수정(스네이크로)
+                .teamTier(request.getTeam_tier()) //수정(스네이크로)
                 .leaderId(leader)
                 .currentMemberCount(1) // 초기 리더 포함
                 .build();

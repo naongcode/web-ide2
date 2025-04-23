@@ -9,15 +9,15 @@ import java.util.Date;
 @Builder
 public class FileCreateResponse {
 
-    private Long fileId;
-    private Long folderId;
-    private String fileName;     // 추가됨
+    private Long file_id; //수정(스네이크로)
+    private Long folder_id; //수정(스네이크로)
+    private String file_name;     // 추가됨,수정(스네이크로)
     private String language;
-    private Long teamId;
-    private Long questId;
-    private String userId;
+    private Long team_id; //수정(스네이크로)
+    private Long quest_id; //수정(스네이크로)
+    private String user_id; //수정(스네이크로)
     private Date createdAt;
 
-    private Long submitId;
+    private Long submission_id; //수정(스네이크로), 수정전(submitId)
 
 }

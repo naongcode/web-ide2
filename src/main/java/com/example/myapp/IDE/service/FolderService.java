@@ -15,7 +15,7 @@ public class FolderService {
 
     public Folder createFolder(FolderCreateRequest request) {
         Folder parentFolder = null;
-        Long parentId = request.getParentId();
+        Long parentId = request.getParent_id(); //수정(스네이크로)
 
         // 수정 부분 -> parentId가 null이면 루트 폴더 생성
         if (parentId != null) {
@@ -27,7 +27,7 @@ public class FolderService {
                 //.teamId(request.getTeamId())
                 //.questId(request.getQuestId()) 팀, 퀘스트, 유저 정보 추가(사용하지 않는 정보 즉, 데이터베이스에는 컬럼이 없음)
                 //.userId(request.getUserId())
-                .folderName(request.getFolderName())
+                .folderName(request.getFolder_name()) //수정(스네이크로)
                 .parentId(parentFolder) // parentId가 null이면 parent는 null
                 .build();
 

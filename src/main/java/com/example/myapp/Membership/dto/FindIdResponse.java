@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FindIdResponse {
-    private String userId;
+    private String user_id; //수정(스네이크로)
 
 
 }
