@@ -56,7 +56,16 @@ public class TeamController {
     public ResponseEntity<?> getTeamInfo(@PathVariable Integer teamId) {
         try {
             Team2 team = teamService.getTeamById(teamId);
-            return ResponseEntity.ok(team);
+            // TeamResponse DTO로 변환하여 반환
+            TeamCreateResponse response = new TeamCreateResponse(
+                    team.getTeamId(),
+                    team.getTeamName(),
+                    team.getTeamDescription(),
+                    team.getMaxMember(),
+                    team.getCurrentMemberCount(),
+                    team.getLeaderId().getNickname()
+            );
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 조회 실패: " + e.getMessage());
         }
