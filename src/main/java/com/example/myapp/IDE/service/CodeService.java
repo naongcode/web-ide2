@@ -1,10 +1,9 @@
 package com.example.myapp.IDE.service;
 
 import com.example.myapp.IDE.dto.*;
-import com.example.myapp.IDE.File.File;
-import com.example.myapp.IDE.Folder.Folder;
+import com.example.myapp.IDE.entity.File;
+import com.example.myapp.IDE.entity.Folder;
 import com.example.myapp.IDE.entity.Quest;
-import com.example.myapp.IDE.entity.Submission;
 import com.example.myapp.repository.FolderRepository;
 import com.example.myapp.repository.FileRepository;
 

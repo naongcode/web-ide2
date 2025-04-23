@@ -1,5 +1,11 @@
-package com.example.myapp.IDE.Folder;
+package com.example.myapp.IDE.controller;
 
+import com.example.myapp.IDE.dto.FolderCreateRequest;
+import com.example.myapp.IDE.dto.FolderCreateResponse;
+import com.example.myapp.IDE.service.FolderService;
+import com.example.myapp.IDE.entity.Folder;
+import com.example.myapp.Membership.util.extractInfoFromToken;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/code/{teamId}/{questId}/{userId}")
+@RequestMapping("/code/{teamId}/{questId}")
 @RequiredArgsConstructor
 public class FolderController {
 
@@ -19,11 +25,21 @@ public class FolderController {
     @PostMapping("/folder")
     public ResponseEntity<FolderCreateResponse> createFolder(@PathVariable Long teamId,
                                                              @PathVariable Long questId,
-                                                             @PathVariable String userId,
+                                                             HttpServletRequest httpRequest,
                                                              @RequestBody FolderCreateRequest request) {
 
         logger.info("Received request to create folder: teamId={}, questId={}, userId={}, folderName={}",
-                teamId, questId, userId, request.getFolderName());
+                teamId, questId, request.getFolderName());
+
+        // 수정 -> Authorization 헤더에서 토큰 추출
+        String authorizationHeader = httpRequest.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String token = authorizationHeader.substring(7); // "Bearer " 이후의 토큰 값
+        String userId = extractInfoFromToken.extractUserIdFromToken(token);
+
 
         // 요청 데이터에서 teamId, questId, userId를 세팅
         request.setTeamId(teamId);

@@ -1,6 +1,5 @@
-package com.example.myapp.IDE.Folder;
+package com.example.myapp.IDE.entity;
 
-import com.example.myapp.IDE.File.File;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

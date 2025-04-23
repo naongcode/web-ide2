@@ -1,4 +1,4 @@
-package com.example.myapp.IDE.submission;
+package com.example.myapp.IDE.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

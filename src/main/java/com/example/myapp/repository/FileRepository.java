@@ -1,8 +1,7 @@
 package com.example.myapp.repository;
 
-import com.example.myapp.IDE.File.File;
+import com.example.myapp.IDE.entity.File;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

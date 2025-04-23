@@ -1,4 +1,13 @@
-package com.example.myapp.IDE.File;
+package com.example.myapp.IDE.controller;
+
+import com.example.myapp.IDE.dto.FileCreateRequest;
+import com.example.myapp.IDE.dto.FileCreateResponse;
+import com.example.myapp.IDE.dto.FileUpdateRequest;
+import com.example.myapp.IDE.dto.FileUpdateResponse;
+import com.example.myapp.IDE.entity.File;
+import com.example.myapp.IDE.service.FileService;
+import com.example.myapp.Membership.util.extractInfoFromToken;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -7,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/code/{teamId}/{questId}/{userId}")
+@RequestMapping("/code/{teamId}/{questId}")
 @RequiredArgsConstructor
 public class FileController {
 
@@ -19,15 +28,24 @@ public class FileController {
     @PostMapping("/file")
     public ResponseEntity<FileCreateResponse> createFile(@PathVariable Long teamId,
                                                          @PathVariable Long questId,
-                                                         @PathVariable String userId,
-                                                         @RequestBody FileCreateRequest request) {
+                                                         @RequestBody FileCreateRequest request,
+                                                         HttpServletRequest httpRequest) { // HttpServletRequest 파라미터 추가
         logger.info("Received request to create file: teamId={}, questId={}, userId={}, fileName={}",
-                teamId, questId, userId, request.getFileName());
+                teamId, questId, request.getFileName());
+
+        // 수정 -> Authorization 헤더에서 토큰 추출
+        String authorizationHeader = httpRequest.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String token = authorizationHeader.substring(7); // "Bearer " 이후의 토큰 값
+        String userId = extractInfoFromToken.extractUserIdFromToken(token);
 
         // 경로에서 받은 값 세팅
         request.setTeamId(teamId);
         request.setQuestId(questId);
-        request.setUserId(userId);
+        request.setUserId(userId); // 어떤 userId를 사용할지 결정
 
         File file = fileService.createFile(request);
 
@@ -36,11 +54,10 @@ public class FileController {
                 .folderId(file.getFolder() != null ? file.getFolder().getFolderId() : null)
                 .fileName(file.getFileName())
                 .language(file.getLanguage())
-                .teamId(teamId) //수정 -> 경로 변수에 있는 팀 아이디 가지고옴
+                .teamId(teamId)
                 .questId(file.getQuestId())
-                .userId(userId) //수정 -> 경로 변수에 있는 유저 아이디 가지고옴
+                .userId(userId) // 어떤 userId를 사용할지 결정
                 .createdAt(file.getCreatedAt())
-                .submitId(file.getSubmission() != null ? file.getSubmission().getSubmissionId().longValue() : null)
                 .build();
 
         logger.info("📤 Returning Response: folderId={}",

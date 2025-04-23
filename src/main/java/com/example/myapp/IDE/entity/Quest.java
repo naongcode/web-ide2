@@ -1,11 +1,9 @@
 package com.example.myapp.IDE.entity;
 
-import com.example.myapp.IDE.File.File;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter

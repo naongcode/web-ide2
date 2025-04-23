@@ -1,8 +1,5 @@
-package com.example.myapp.IDE.File;
+package com.example.myapp.IDE.entity;
 
-import com.example.myapp.IDE.Folder.Folder;
-import com.example.myapp.IDE.entity.Quest;
-import com.example.myapp.IDE.entity.Submission;
 import jakarta.persistence.*;
 import lombok.*;
 

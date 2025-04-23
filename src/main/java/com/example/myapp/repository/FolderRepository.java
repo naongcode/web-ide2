@@ -1,6 +1,6 @@
 package com.example.myapp.repository;
 
-import com.example.myapp.IDE.Folder.Folder;
+import com.example.myapp.IDE.entity.Folder;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

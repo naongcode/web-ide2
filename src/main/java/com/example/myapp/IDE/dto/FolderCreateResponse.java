@@ -1,4 +1,4 @@
-package com.example.myapp.IDE.Folder;
+package com.example.myapp.IDE.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

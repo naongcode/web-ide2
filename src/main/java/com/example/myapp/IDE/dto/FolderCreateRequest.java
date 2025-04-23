@@ -1,6 +1,5 @@
-package com.example.myapp.IDE.Folder;
+package com.example.myapp.IDE.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter

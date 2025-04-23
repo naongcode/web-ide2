@@ -1,4 +1,4 @@
-package com.example.myapp.IDE.File;
+package com.example.myapp.IDE.dto;
 
 import lombok.Getter;
 import lombok.Setter;

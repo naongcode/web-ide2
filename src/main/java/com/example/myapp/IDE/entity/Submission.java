@@ -1,6 +1,5 @@
 package com.example.myapp.IDE.entity;
 
-import com.example.myapp.IDE.File.File;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
