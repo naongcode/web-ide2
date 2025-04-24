@@ -32,7 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'// JavaMailSender
     implementation 'at.favre.lib:bcrypt:0.9.0'
     implementation 'com.mysql:mysql-connector-j' // MySQL 예시
-    implementation 'javax.servlet:javax.servlet-api:4.0.1'  // 서블릿 API 의존성 추가
+    //implementation 'javax.servlet:javax.servlet-api:4.0.1'  // 서블릿 API 의존성 추가
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }

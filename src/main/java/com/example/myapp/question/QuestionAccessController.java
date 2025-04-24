@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,15 +21,13 @@ public class QuestionAccessController {
             @PathVariable Long teamId,
             @PathVariable Long questId,
             @PathVariable String targetUserId,
-            HttpServletRequest request
+            @RequestHeader("Authorization") String token
     ) {
         // 1. 토큰에서 유저 ID 추출
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        String tokenUserId = extractInfoFromToken.extractUserIdFromToken(token);
+        String tokenUserId = extractInfoFromToken.extractUserIdFromToken(token.replace("Bearer ", ""));
 
         // 2. 서비스 호출
-        QuestionAccessResponse response =
-                questionAccessService.validateEditorAccess(teamId, tokenUserId, questId, targetUserId);
+        QuestionAccessResponse response = questionAccessService.validateEditorAccess(teamId, tokenUserId, questId, targetUserId);
 
         return ResponseEntity.ok(response);
     }

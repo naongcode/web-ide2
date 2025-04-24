@@ -14,10 +14,13 @@ public class QuestionAccessService {
     /**
      * 편집기 접근 가능한 문제인지 확인
      */
-    public QuestionAccessResponse validateEditorAccess(    Long teamId,
-                                                           String tokenUserId,
-                                                           Long questId,
-                                                           String targetUserId) {
+    public QuestionAccessResponse validateEditorAccess(
+            Long teamId,
+            String tokenUserId,
+            Long questId,
+            String targetUserId
+
+            ) {
         Question question = questionRepository.findById(questId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제를 찾을 수 없습니다."));
 
@@ -34,6 +37,7 @@ public class QuestionAccessService {
         if (!tokenUserId.equals(targetUserId)) {
             throw new IllegalArgumentException("자신의 문제에만 접근할 수 있습니다.");
         }
+
 
         return new QuestionAccessResponse(
                 question.getQuestId(),
