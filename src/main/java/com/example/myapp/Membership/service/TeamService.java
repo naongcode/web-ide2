@@ -8,8 +8,10 @@ import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.repository.TeamMemberRepository2;
 import com.example.myapp.Membership.repository.TeamRepository2;
 import com.example.myapp.Membership.repository.UserRepository2;
+import com.example.myapp.Membership.util.TierUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +31,49 @@ public class TeamService {
 
     //팀 리스트 조회
     public List<TeamCreateResponse> getTeamsByTier(String tier) {
-        List<Team2> teams = teamRepository.findAllByTeamTier(tier); // 티어로 필터링
-        return teams.stream()
-                .map(TeamCreateResponse::new)
-                .collect(Collectors.toList());
+        if (tier == null || tier.trim().isEmpty()) {
+            return teamRepository.findAll().stream()
+                    .map(TeamCreateResponse::new)
+                    .collect(Collectors.toList());
+        }
+
+        try {
+            int currentTierIndex = -1;
+            for (int i = 0; i < TierUtil.TIER_NAMES.length; i++) {
+                if (TierUtil.convertTier(i).equalsIgnoreCase(tier.trim())) {
+                    currentTierIndex = i;
+                    break;
+                }
+            }
+
+            if (currentTierIndex == -1) {
+                return teamRepository.findAllByTeamTier(tier).stream()
+                        .map(TeamCreateResponse::new)
+                        .collect(Collectors.toList());
+            }
+
+            String currentGrade = tier.trim().split(" ")[0].toUpperCase();
+            List<Team2> teams = new ArrayList<>();
+
+            // 현재 인덱스부터 같은 등급의 하위 티어까지 역방향 탐색
+            for (int i = currentTierIndex; i >= 0; i--) {
+                String targetTier = TierUtil.convertTier(i);
+                String targetGrade = targetTier.split(" ")[0].toUpperCase();
+
+                if (!targetGrade.equals(currentGrade)) break;
+
+                teams.addAll(teamRepository.findAllByTeamTier(targetTier));
+            }
+
+            return teams.stream()
+                    .map(TeamCreateResponse::new)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            return teamRepository.findAllByTeamTier(tier).stream()
+                    .map(TeamCreateResponse::new)
+                    .collect(Collectors.toList());
+        }
     }
 
 

@@ -2,7 +2,7 @@ package com.example.myapp.Membership.util;
 
 public class TierUtil {
 
-    private static final String[] TIER_NAMES = {
+    public static final String[] TIER_NAMES = {
             "UNRANKED", // 0
             "BRONZE V", "BRONZE IV", "BRONZE III", "BRONZE II", "BRONZE I",         // 1~5
             "SILVER V", "SILVER IV", "SILVER III", "SILVER II", "SILVER I",         // 6~10
