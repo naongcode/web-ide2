@@ -26,12 +26,15 @@ public class TeamService {
         this.teamMemberRepository2 = teamMemberRepository2;
     }
 
-    public List<TeamCreateResponse> getAllTeams(String currentUserId) {
-        List<Team2> teams = teamRepository.findAll();
+
+    //팀 리스트 조회
+    public List<TeamCreateResponse> getTeamsByTier(String tier) {
+        List<Team2> teams = teamRepository.findAllByTeamTier(tier); // 티어로 필터링
         return teams.stream()
-                .map(team -> new TeamCreateResponse(team, currentUserId))
+                .map(TeamCreateResponse::new)
                 .collect(Collectors.toList());
     }
+
 
 
     // 팀 생성

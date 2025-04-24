@@ -14,13 +14,11 @@ public class TeamCreateResponse {
     private int current_member_count; //수정(스네이크로)
     private String leader_nickname; //수정(스네이크로)
 
-    public TeamCreateResponse(Team2 team, String currentUserId) {
+    public TeamCreateResponse(Team2 team) {
         this.team_id = team.getTeamId();
         this.team_name = team.getTeamName();
         this.team_description = team.getTeamDescription();
         this.max_member = team.getMaxMember();
         this.current_member_count = team.getCurrentMemberCount();
-
     }
-
 }

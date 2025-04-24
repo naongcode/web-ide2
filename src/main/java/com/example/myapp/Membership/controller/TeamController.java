@@ -93,19 +93,18 @@ public class TeamController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getAllTeams(@RequestHeader("Authorization") String token) {
-        try {
-            // 토큰 앞뒤 공백 제거
-            String trimmedToken = token != null ? token.trim() : null;
-            if (trimmedToken == null || trimmedToken.isEmpty()) {
-                return ResponseEntity.badRequest().body("팀 리스트 조회 실패: Authorization 토큰이 없습니다.");
-            }
-            String userId = extractInfoFromToken.extractUserIdFromToken(trimmedToken);
-            List<TeamCreateResponse> teams = teamService.getAllTeams(userId);
-            return ResponseEntity.ok(teams);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("팀 리스트 조회 실패: " + e.getMessage());
+    public ResponseEntity<List<TeamCreateResponse>> getTeamsByUserTier(HttpServletRequest request) {
+        String userTier = (String) request.getAttribute("tier");
+        String currentUserId = (String) request.getAttribute("userId");
+        if (userTier != null) {
+            userTier = userTier.trim();
         }
+        if (currentUserId != null) {
+            currentUserId = currentUserId.trim();
+        }
+        List<TeamCreateResponse> teams = teamService.getTeamsByTier(userTier);
+        // 필요하다면 currentUserId를 활용하여 응답 데이터를 추가 처리
+        return ResponseEntity.ok(teams);
     }
 
 }
