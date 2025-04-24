@@ -28,6 +28,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtAuthFilter)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/**","/auth/**","/signup","/login","check-id/**");
+                .excludePathPatterns("/user/**","/auth/**","/signup","/login","check-id/**","/code/{questId}/{userId}");
     }
 }

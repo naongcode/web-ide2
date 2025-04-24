@@ -22,7 +22,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionRepository submissionRepository;
     private final UserRepository userRepository;
     private final QuestRepository questRepository;
-    private final CodeService codeService; // CodeService 주입
+    //private final CodeService codeService; // CodeService 주입
 
 
     @Override
@@ -37,25 +37,25 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         // 코드 실행 요청 DTO 생성
         CodeRunRequest codeRunRequest = new CodeRunRequest();
-        codeRunRequest.setCode_context(request.getCodeContext());
-        codeRunRequest.setLanguage(request.getLanguage());
+        //codeRunRequest.setCode_context(request.getCodeContext());
+       // codeRunRequest.setLanguage(request.getLanguage());
         // 어떤 언어로 실행해야 할지 정보가 필요
         // Quest 엔티티나 SubmissionRequest에 언어 정보가 활용할 수 있음.
 
         // 코드 실행
-        CodeRunResponse codeRunResponse = codeService.runCode(codeRunRequest);
-        String executionResult = codeRunResponse.getOutput();
+        //CodeRunResponse codeRunResponse = codeService.runCode(codeRunRequest);
+        //String executionResult = codeRunResponse.getOutput();
 
 
         // 제출 엔티티 생성 (DB 저장을 위함)
         Submission submission = Submission.builder()
                 .user(user)
                 .quest(quest)
-                .codeContext(request.getCodeContext())
-                .output(executionResult) // 코드 실행 결과 저장
+                //.codeContext(request.getCodeContext())
+                //.output(executionResult) // 코드 실행 결과 저장
                 .submittedAt(new Date())
                 .isCompleted(request.getIsCompleted())
-                .language(request.getLanguage())
+                //.language(request.getLanguage())
                 .build();
 
         // 저장해라.
@@ -64,8 +64,8 @@ public class SubmissionServiceImpl implements SubmissionService {
         // 응답 DTO에 전달
         return SubmissionResponse.builder()
                 .submission_id(submission.getSubmissionId()) //수정(스네이크로)
-                .output(submission.getOutput())
-                .language(request.getLanguage())
+                //.output(submission.getOutput())
+               // .language(request.getLanguage())
                 .submittedAt(submission.getSubmittedAt())
                 .build();
     }

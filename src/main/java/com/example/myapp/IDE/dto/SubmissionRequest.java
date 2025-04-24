@@ -14,12 +14,12 @@ public class SubmissionRequest {
     @JsonProperty("user_id")  // 스네이크 케이스와 매핑
     private String userId;
 
-    @JsonProperty("code_context")  // 스네이크 케이스와 매핑
-    private String codeContext;
+//    @JsonProperty("code_context")  // 스네이크 케이스와 매핑
+//    private String codeContext;
 
     @JsonProperty("is_completed")  // 스네이크 케이스와 매핑
     private Boolean isCompleted;
 
-    private String language;
+//    private String language;
 }
 
