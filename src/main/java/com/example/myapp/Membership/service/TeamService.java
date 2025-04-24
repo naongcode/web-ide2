@@ -68,6 +68,7 @@ public class TeamService {
                 .collect(Collectors.toList());
     }
 
+
     // 팀 참가
     public String joinTeam(String userId, Integer teamId) {
         if (teamMemberRepository2.existsByUserId_UserIdAndTeamId_TeamId(userId, teamId)) {

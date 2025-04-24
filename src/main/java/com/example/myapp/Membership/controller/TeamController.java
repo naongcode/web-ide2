@@ -4,6 +4,7 @@ package com.example.myapp.Membership.controller;
 import com.example.myapp.Membership.dto.TeamCreateRequest;
 import com.example.myapp.Membership.dto.TeamCreateResponse;
 import com.example.myapp.Membership.dto.TeamJoinRequest;
+import com.example.myapp.Membership.dto.TeamMemberResponse;
 import com.example.myapp.Membership.entity.Team2;
 import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.TeamService;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/team")
@@ -72,13 +74,12 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}/member")
-    public ResponseEntity<?> getTeamMembers(@PathVariable Integer teamId) {
-        try {
-            List<User2> members = teamService.getTeamMembers(teamId);
-            return ResponseEntity.ok(members);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("팀원 조회 실패: " + e.getMessage());
-        }
+    public ResponseEntity<List<TeamMemberResponse>> getTeamMembers(@PathVariable Integer teamId) {
+        List<User2> teamMembers = teamService.getTeamMembers(teamId);
+        List<TeamMemberResponse> response = teamMembers.stream()
+                .map(user -> new TeamMemberResponse(user.getUserId(), user.getNickname()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/join")
