@@ -38,8 +38,8 @@ public class QuestionResponseDto {
     @JsonProperty("quest_status")
     private String questStatus;  // 필드명 카멜케이스로 변경
 
-//    @JsonProperty("is_submitted")
-//    private boolean isSubmitted; // 유저가 제출했는지 여부 추가
+    @JsonProperty("is_submitted")
+    private boolean isSubmitted; // 유저가 제출했는지 여부 추가
 
     // 오늘 날짜와 마감 날짜를 비교하여 questStatus 설정
     public void setQuestStatus() {
@@ -62,7 +62,7 @@ public class QuestionResponseDto {
         this.questDue = questDue;
         this.questLink = questLink;
         setQuestStatus();  // 상태 자동 설정
-//        this.isSubmitted = isSubmitted;  // 유저 제출 여부 추가
+        this.isSubmitted = isSubmitted;  // 유저 제출 여부 추가
     }
 
 }

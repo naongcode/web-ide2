@@ -12,4 +12,6 @@ public interface SubmissionRepository extends JpaRepository<Submission, Integer>
     // 특정 문제에 대해 유저가 제출했는지 여부 확인
     boolean existsByQuest_QuestIdAndUser_UserId(Long questId, String userId);
 
+    // 주어진 questId와 userId에 대한 제출 여부 조회
+    Optional<Submission> findByQuest_QuestIdAndUser_UserId(Long questId, String userId);
 }

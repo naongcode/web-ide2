@@ -37,6 +37,17 @@ public class QuestionController {
         return ResponseEntity.ok(response);
     }
 
+    // 문제 상세 조회 (팀 ID + 문제 ID + 유저 ID)
+    @GetMapping("/{teamId}/{questId}/{userId}")
+    public ResponseEntity<QuestionResponseDto> getQuestionDetailWithUserId(
+            @PathVariable Long teamId,
+            @PathVariable Long questId,
+            @PathVariable String userId
+    ) {
+        QuestionResponseDto response = questionService.getQuestionDetailWithUserId(teamId, questId, userId);
+        return ResponseEntity.ok(response);
+    }
+
     // 팀별 문제 목록 조회
     @GetMapping("/{teamId}")
     public ResponseEntity<List<QuestionResponseDto>> getQuestionsByTeam(@PathVariable Long teamId) {
