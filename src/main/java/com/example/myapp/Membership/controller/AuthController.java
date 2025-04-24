@@ -48,16 +48,21 @@ public class AuthController {
 
 
     // 아이디 중복 엔드포인트
-    @GetMapping("/check-id")
-    public ResponseEntity<?> checkUserIdDuplicate(HttpServletRequest request) {
+    @GetMapping("/check-id/{user_id}")
+    public ResponseEntity<?> checkUserIdDuplicate(HttpServletRequest request, @PathVariable("user_id") String pathUserId) {
         try {
-            String token = request.getHeader("Authorization").replace("Bearer ", "");
-            String userId = extractInfoFromToken.extractUserIdFromToken(token); // 수정 -> 토큰에서 꺼냄
+            String token = request.getHeader("Authorization");
+            if (token == null || !token.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+            String jwtToken = token.substring(7);
+            String tokenUserId = extractInfoFromToken.extractUserIdFromToken(jwtToken); // 토큰에서 userId 추출
 
-            boolean isDuplicate = userService.isUserIdDuplicate(userId);
+            boolean isDuplicate = userService.isUserIdDuplicate(tokenUserId);
             return ResponseEntity.ok(new CheckUserIdResponse(isDuplicate));
+
         } catch (Exception e) {
-            log.error("Error checking user ID: ", e);
+            log.error("아이디 중복 확인 중 오류 발생: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new CheckUserIdResponse(false));
         }
