@@ -42,33 +42,26 @@ public class CodeService {
 
     // 코드 목록 조회 로직 (수정됨: 폴더에 속하지 않은 파일 포함)
     public List<FolderInfo> getCodeIndex(Long questId, String userId) {
-        log.info("getCodeIndex 호출 - questId: {}, userId: {}", questId, userId);
+        log.info("getCodeIndex 호출 (수정됨 - 파일 기준, 파일 있는 폴더만 조회) - questId: {}, userId: {}", questId, userId);
 
         // 1. 특정 퀘스트에 대한 사용자 제출물에 연결된 모든 파일 조회
-        // FileRepository에 findBySubmission_Quest_QuestIdAndSubmission_User_UserId 메소드가 선언되어 있어야 합니다.
         List<File> files = fileRepository.findBySubmission_Quest_QuestIdAndSubmission_User_UserId(questId, userId);
+        log.debug("조회된 파일 목록: {}", files);
 
-        // 파일이 없는 경우 빈 목록 반환
-        if (files.isEmpty()) {
-            log.info("해당 퀘스트/사용자에 대한 파일이 없습니다.");
-            return new ArrayList<>();
-        }
-
-        // 2. 파일들을 폴더별로 그룹화하고, 폴더 없는 파일 분리
-        // 폴더 ID를 키로 사용하는 맵 (폴더 있는 파일용)
+        // 폴더 ID를 키로 사용하는 맵
         Map<Long, FolderInfo> folderMap = new LinkedHashMap<>();
         // 폴더 없는 파일들을 담을 리스트
         List<FileInfo> rootFilesList = new ArrayList<>();
 
+        // 2. 파일 정보를 기반으로 폴더 구조 생성 및 파일 분류
         for (File file : files) {
-            Folder folder = file.getFolder(); // 파일이 속한 폴더 엔티티 가져오기
-
             FileInfo fileInfo = new FileInfo(
                     file.getFileId(),
                     file.getFileName(),
                     file.getCodeContext(),
                     file.getLanguage()
             );
+            Folder folder = file.getFolder();
 
             if (folder == null) {
                 // 파일이 폴더에 속하지 않은 경우
@@ -95,32 +88,23 @@ public class CodeService {
         }
 
         // 3. 최종 결과 리스트 구성
-        List<FolderInfo> result = new ArrayList<>();
+        List<FolderInfo> result = new ArrayList<>(folderMap.values());
 
-        // 폴더에 속한 파일들로 구성된 FolderInfo 객체들을 결과 리스트에 추가
-        result.addAll(folderMap.values());
-
-        // 폴더에 속하지 않은 파일들이 있다면, 이들을 위한 특별한 FolderInfo 객체를 만들어 결과 리스트에 추가
+        // 폴더에 속하지 않은 파일들을 위한 FolderInfo 객체 생성 및 추가
         if (!rootFilesList.isEmpty()) {
-            // 폴더 없는 파일들을 위한 가상 폴더 정보 생성
-            // ID는 실제 폴더와 겹치지 않도록 음수 값 등을 사용할 수 있습니다.
-            Long rootFolderId = -1L; // 예: -1
-            String rootFolderName = "Root Files"; // 또는 "Unassigned Files" 등 원하는 이름
-
+            Long rootFolderId = -1L;
+            String rootFolderName = "Root Files";
             FolderInfo rootFolderInfo = new FolderInfo(
                     rootFolderId,
                     rootFolderName,
-                    null, // 루트 폴더는 부모가 없습니다.
-                    rootFilesList // 폴더 없는 파일 목록을 여기에 추가
+                    null,
+                    rootFilesList
             );
             log.info("루트 파일 {}개를 포함하는 '{}' 폴더 정보 추가.", rootFilesList.size(), rootFolderName);
-
-            // 결과 리스트의 어디에 추가할지 결정 (예: 항상 맨 앞에)
-            result.add(0, rootFolderInfo); // 맨 앞에 추가
-            // 또는 맨 뒤에 추가: result.add(rootFolderInfo);
+            result.add(0, rootFolderInfo); // 또는 원하는 위치에 추가
         }
 
-        log.info("getCodeIndex 로직 완료, 총 {}개의 폴더/루트 폴더 정보 반환.", result.size());
+        log.info("getCodeIndex 로직 완료 (파일 기준, 파일 있는 폴더만 조회), 총 {}개의 폴더/루트 폴더 정보 반환.", result.size());
         return result;
     }
 
