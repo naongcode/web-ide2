@@ -12,7 +12,7 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final SubmissionRepository submissionRepository;
+//    private final SubmissionRepository submissionRepository;
 
     // 문제 생성
     public QuestionCreateResponseDto createQuestion(QuestionRequestDto requestDto) {
@@ -34,7 +34,7 @@ public class QuestionService {
     }
 
     // 문제 상세 조회 (팀 ID + 문제 ID)
-    public QuestionResponseDto getQuestionDetail(Long teamId, Long questId, String userId) {
+    public QuestionResponseDto getQuestionDetail(Long teamId, Long questId) {
         Question question = questionRepository.findById(questId)
                 .filter(q -> q.getTeamId().equals(teamId))
                 .orElseThrow(() -> new IllegalArgumentException("해당 팀의 문제가 존재하지 않습니다."));
@@ -44,7 +44,7 @@ public class QuestionService {
         String questStatus = today.isAfter(question.getQuestDue()) ? "마감" : "진행중";
 
         // 유저가 해당 문제를 제출했는지 확인
-        boolean isSubmitted = submissionRepository.existsByQuest_QuestIdAndUser_UserId(questId, userId);
+//        boolean isSubmitted = submissionRepository.existsByQuest_QuestIdAndUser_UserId(questId, userId);
 
         return QuestionResponseDto.builder()
                 .questId(question.getQuestId())
@@ -55,7 +55,7 @@ public class QuestionService {
                 .questDue(question.getQuestDue())
                 .questLink(question.getQuestLink())
                 .questStatus(questStatus)
-                .isSubmitted(isSubmitted) // 유저가 제출했는지 정보 추가
+//                .isSubmitted(isSubmitted) // 유저가 제출했는지 정보 추가
                 .build();
     }
 

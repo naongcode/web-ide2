@@ -26,13 +26,14 @@ public class QuestionController {
         return ResponseEntity.ok(response);
     }
 
-    // 문제 상세 조회 (팀 ID + 문제 ID + 유저 ID)
-    @GetMapping("/{teamId}/{questId}/{userId}")
+    // 문제 상세 조회 (팀 ID + 문제 ID )  userID는 제거함
+    @GetMapping("/{teamId}/{questId}")
     public ResponseEntity<QuestionResponseDto> getQuestionDetail(
             @PathVariable Long teamId,
-            @PathVariable Long questId,
-            @PathVariable String userId) {
-        QuestionResponseDto response = questionService.getQuestionDetail(teamId, questId, userId);
+            @PathVariable Long questId
+//            @PathVariable String userId
+    ) {
+        QuestionResponseDto response = questionService.getQuestionDetail(teamId, questId);
         return ResponseEntity.ok(response);
     }
 
