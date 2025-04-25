@@ -51,14 +51,8 @@ public class AuthController {
     @GetMapping("/check-id/{user_id}")
     public ResponseEntity<?> checkUserIdDuplicate(HttpServletRequest request, @PathVariable("user_id") String pathUserId) {
         try {
-            String token = request.getHeader("Authorization");
-            if (token == null || !token.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
-            }
-            String jwtToken = token.substring(7);
-            String tokenUserId = extractInfoFromToken.extractUserIdFromToken(jwtToken); // 토큰에서 userId 추출
-
-            boolean isDuplicate = userService.isUserIdDuplicate(tokenUserId);
+            //아이디 중복확인
+            boolean isDuplicate = userService.isUserIdDuplicate(pathUserId);
             return ResponseEntity.ok(new CheckUserIdResponse(isDuplicate));
 
         } catch (Exception e) {
