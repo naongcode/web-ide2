@@ -51,7 +51,7 @@ public class AuthController {
     @GetMapping("/check-id/{user_id}")
     public ResponseEntity<?> checkUserIdDuplicate(HttpServletRequest request, @PathVariable("user_id") String pathUserId) {
         try {
-            //아이디 중복확인
+            //아이디 중복확인 로직
             boolean isDuplicate = userService.isUserIdDuplicate(pathUserId);
             return ResponseEntity.ok(new CheckUserIdResponse(isDuplicate));
 
