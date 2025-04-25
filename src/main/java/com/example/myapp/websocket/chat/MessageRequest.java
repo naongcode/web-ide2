@@ -12,10 +12,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MessageRequest {
     @JsonProperty("team_id")
     private Long teamId;
+
+    @JsonProperty("token")
+    private String token;
+
     private String nickname;
 
-    @JsonProperty("user_id")
-    private String userId;
+//    @JsonProperty("user_id")
+//    private String userId;
 
     private String content;
     private String type;

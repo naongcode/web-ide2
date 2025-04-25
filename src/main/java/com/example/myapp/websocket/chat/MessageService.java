@@ -16,7 +16,7 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void saveMessage(MessageRequest request) {
+    public void saveMessage(MessageRequest request, String userId) {
         // 날짜 변환용
         String formattedTimestamp = DateFormatUtil.convertToMySQLDateFormat(Instant.now());
 
@@ -24,7 +24,7 @@ public class MessageService {
         Message message = Message.builder()
                 .teamId(request.getTeamId())
                 .nickname(request.getNickname())
-                .userId(request.getUserId())
+                .userId(userId)
                 .content(request.getContent())
                 .timestamp(formattedTimestamp)  // 변환된 날짜 형식 사용
                 .build();

@@ -31,4 +31,5 @@ public class Message {
 
     @Column(name = "created_at")
     private String timestamp;
+
 }
