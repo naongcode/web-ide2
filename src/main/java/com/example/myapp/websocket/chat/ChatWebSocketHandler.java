@@ -90,14 +90,14 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                     break;
 
                 default:
-                    session.sendMessage(new TextMessage("❌ 알 수 없는 메시지 타입입니다."));
+                    session.sendMessage(new TextMessage("❌ 타입:message,history,join"));
             }
         } catch (Exception e) {
             // 예외 발생 시 에러 로그 출력
             System.err.println("메시지 저장 실패: " + e.getMessage());
 
             // 클라이언트에 실패 메시지 전송
-            String errorMessage = "메시지 전송 실패. 다시 시도해 주세요.";
+            String errorMessage = "전송실패. 헤더토큰,team_id,nickname,content";
             session.sendMessage(new TextMessage(errorMessage));
         }
     }
