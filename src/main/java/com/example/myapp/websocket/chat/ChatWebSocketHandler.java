@@ -4,12 +4,10 @@ import com.example.myapp.websocket.util.DateFormatUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
-import org.springframework.web.socket.adapter.standard.StandardWebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import com.example.myapp.Membership.util.extractInfoFromToken;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 
 import java.time.Instant;
-import java.util.List;
 
 
 @Component
@@ -20,7 +18,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final MessageHistoryService messageHistoryService;
 
     // 수동으로 객체 생성
-    private final extractInfoFromToken extractInfoFromToken = new extractInfoFromToken();
+    private final ExtractInfoFromToken extractInfoFromToken = new ExtractInfoFromToken();
 
     // 클라이언트로부터 받은 teamId를 저장할 변수
     private Long teamId;

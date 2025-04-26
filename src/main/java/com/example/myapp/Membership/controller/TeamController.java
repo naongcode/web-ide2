@@ -8,7 +8,6 @@ import com.example.myapp.Membership.dto.TeamMemberResponse;
 import com.example.myapp.Membership.entity.Team2;
 import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.TeamService;
-import com.example.myapp.Membership.util.extractInfoFromToken;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -3,6 +3,7 @@ package com.example.myapp.IDE.controller;
 import com.example.myapp.IDE.service.SubmissionService;
 import com.example.myapp.IDE.dto.SubmissionRequest;
 import com.example.myapp.IDE.dto.SubmissionResponse;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,21 @@ public class SubmissionController {
     }
 
     // 코드 제출 요청
-    @PostMapping("/")  // questId와 userId를 경로로 받기
+    @PostMapping("/")
     public ResponseEntity<SubmissionResponse> submitCode(
-            @RequestBody SubmissionRequest request // 요청 본문에서 코드와 제출 완료 여부 받기
+            @RequestHeader("Authorization") String authorizationHeader, // 토큰헤더
+            @RequestBody SubmissionRequest request // questId와 is_completed 받기
     ) {
-        log.info("Received request to submit code: {}", request); // 요청 받은 로그
+        log.info("Received request to submit code: {}", request);
 
         try {
+            // 토큰에서 userId 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+            String userId = ExtractInfoFromToken.extractUserIdFromToken(token);
+
+            // 요청 객체에 userId 세팅
+            request.setUserId(userId);
+
             // 코드 제출 로직 처리
             SubmissionResponse response = submissionService.submit(request);
             log.info("Code submitted successfully: {}", response); // 성공적인 제출 로그

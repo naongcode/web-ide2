@@ -6,7 +6,6 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import com.example.myapp.websocket.chat.ChatWebSocketHandler;
@@ -14,7 +13,7 @@ import com.example.myapp.websocket.chat.MessageService;
 import com.example.myapp.websocket.chat.MessageHistoryService;
 
 @Configuration
-public class AppConfig implements WebSocketConfigurer {
+public class ServletConfig implements WebSocketConfigurer {
 
     @Value("${server.port.http}")
     private int serverPortHttp;
@@ -22,7 +21,7 @@ public class AppConfig implements WebSocketConfigurer {
     private final MessageService messageService;
     private final MessageHistoryService messageHistoryService;
 
-    public AppConfig(MessageService messageService, MessageHistoryService messageHistoryService) {
+    public ServletConfig(MessageService messageService, MessageHistoryService messageHistoryService) {
         this.messageService = messageService;
         this.messageHistoryService = messageHistoryService;
     }
@@ -31,13 +30,16 @@ public class AppConfig implements WebSocketConfigurer {
     @Bean
     public ServletWebServerFactory serverFactory() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+        tomcat.addAdditionalTomcatConnectors(createHttpConnector()); // HTTP(8080) 추가
         return tomcat;
     }
 
-    private Connector createStandardConnector() {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+    private Connector createHttpConnector() {
+        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+        connector.setScheme("http");
         connector.setPort(serverPortHttp);
+        connector.setSecure(false);
+        connector.setRedirectPort(8443); // HTTP로 들어오면 HTTPS로 리다이렉트하고 싶으면 설정
         return connector;
     }
 

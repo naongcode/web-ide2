@@ -2,7 +2,7 @@ package com.example.myapp.Membership.controller;
 
 import com.example.myapp.Membership.dto.UserInfoResponse;
 import com.example.myapp.Membership.service.UserService;
-import com.example.myapp.Membership.util.extractInfoFromToken;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class UserController {
         }
 
         String token = authorizationHeader.substring(7); // "Bearer " 이후의 토큰 값
-        String userId = extractInfoFromToken.extractUserIdFromToken(token);
+        String userId = ExtractInfoFromToken.extractUserIdFromToken(token);
 
         UserInfoResponse response = userService.getUserInfo(userId);
         return ResponseEntity.ok(response);

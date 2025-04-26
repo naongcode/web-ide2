@@ -1,6 +1,6 @@
 package com.example.myapp.question;
 
-import com.example.myapp.Membership.util.extractInfoFromToken;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class QuestionAccessController {
             @RequestHeader("Authorization") String token
     ) {
         // 1. 토큰에서 유저 ID 추출
-        String tokenUserId = extractInfoFromToken.extractUserIdFromToken(token.replace("Bearer ", ""));
+        String tokenUserId = ExtractInfoFromToken.extractUserIdFromToken(token.replace("Bearer ", ""));
 
         // 2. 서비스 호출
         QuestionAccessResponse response = questionAccessService.validateEditorAccess(teamId, tokenUserId, questId, targetUserId);

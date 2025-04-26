@@ -3,7 +3,7 @@ package com.example.myapp.Membership.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
-public class extractInfoFromToken {
+public class ExtractInfoFromToken {
 
     public static String extractUserIdFromToken(String token){
         Claims claims = Jwts.parser()
