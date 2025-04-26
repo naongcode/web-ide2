@@ -43,7 +43,7 @@ public class TeamController {
                     team2.getTeamDescription(),
                     team2.getMaxMember(),
                     team2.getCurrentMemberCount(),
-                    team2.getLeaderId().getUserId()
+                    team2.getLeaderId().getNickname()
             );
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -83,9 +83,10 @@ public class TeamController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<?> joinTeam(@RequestBody TeamJoinRequest request) {
+    public ResponseEntity<?> joinTeam(@RequestBody TeamJoinRequest request, HttpServletRequest httpServletRequest) {
         try {
-            String result = teamService.joinTeam(request.getUser_id(), request.getTeam_id()); //수정(스네이크로)
+            String userId = (String) httpServletRequest.getAttribute("userId");
+            String result = teamService.joinTeam(userId, request.getTeam_id());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("팀 참가 실패: " + e.getMessage());

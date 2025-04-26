@@ -115,23 +115,24 @@ public class TeamService {
 
     // 팀 참가
     public String joinTeam(String userId, Integer teamId) {
+        // 중복 참여 확인
         if (teamMemberRepository2.existsByUserId_UserIdAndTeamId_TeamId(userId, teamId)) {
             throw new IllegalStateException("이미 참가한 팀입니다.");
         }
 
-        User2 user2 = userRepository.findByUserId(userId)
+        User2 user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        Team2 team2 = teamRepository.findById(teamId)
+        Team2 team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new IllegalArgumentException("팀을 찾을 수 없습니다."));
 
-        // 현재 인원 증가
-        team2.setCurrentMemberCount(team2.getCurrentMemberCount() + 1);
-        teamRepository.save(team2);
+        // 팀 현재 인원 증가
+        team.setCurrentMemberCount(team.getCurrentMemberCount() + 1);
+        teamRepository.save(team);
 
-        // 팀멤버 등록
-        TeamMember2 teamMember2 = new TeamMember2(null, team2, user2);
-        teamMemberRepository2.save(teamMember2);
+        // 팀 멤버 등록
+        TeamMember2 teamMember = new TeamMember2(null, team, user);
+        teamMemberRepository2.save(teamMember);
 
         return "팀 참가 완료";
     }

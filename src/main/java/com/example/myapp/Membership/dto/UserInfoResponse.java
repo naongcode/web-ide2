@@ -10,6 +10,5 @@ public class UserInfoResponse {
     private String email;
     private String tier;
     private Integer team_id; //수정(스네이크로)
-    private String user_id;
 
 }

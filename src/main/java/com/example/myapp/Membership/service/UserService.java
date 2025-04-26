@@ -173,8 +173,7 @@ public class UserService {
                 user2.getNickname(),
                 user2.getEmail(),
                 currentTier,
-                teamId,
-                userId
+                teamId
         );
     }
 }
