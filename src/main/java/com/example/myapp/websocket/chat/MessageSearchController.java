@@ -9,7 +9,7 @@ import java.util.List;
 
 // REST API 요청을 처리하는 컨트롤러
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/chat")
 public class MessageSearchController {
 
     private final MessageSearchService messageSearchService;
