@@ -66,28 +66,28 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             }
 
             // 토큰에서 유저 ID 추출 (Authorization 헤더에서 Bearer 토큰 추출)
-            List<String> authHeaders = session.getHandshakeHeaders().get("Authorization");
-            if (authHeaders == null || authHeaders.isEmpty()) {
-                System.out.println("❌ Authorization 헤더가 없습니다.");
-                session.sendMessage(new TextMessage("인증 정보가 없습니다."));
-                return;
-            }
+//            List<String> authHeaders = session.getHandshakeHeaders().get("Authorization");
+//            if (authHeaders == null || authHeaders.isEmpty()) {
+//                System.out.println("❌ Authorization 헤더가 없습니다.");
+//                session.sendMessage(new TextMessage("인증 정보가 없습니다."));
+//                return;
+//            }
 
-            String token = authHeaders.get(0).replace("Bearer ", "");
-            String userId = extractInfoFromToken.extractUserIdFromToken(token.replace("Bearer ", ""));
+//            String token = authHeaders.get(0).replace("Bearer ", "");
+//            String userId = extractInfoFromToken.extractUserIdFromToken(token.replace("Bearer ", ""));
 
             switch (request.getType()) {
                 case "message":
-                    handleChatMessage(session, request, userId);
+                    handleChatMessage(session, request);
                     break;
 
-                case "history":
-                    handleHistoryRequest(session, request.getTeamId());
-                    break;
-
-                case "join":
-                    handleJoinMessage(session, request.getTeamId(), request.getNickname(), userId);
-                    break;
+//                case "history":
+//                    handleHistoryRequest(session, request.getTeamId());
+//                    break;
+//
+//                case "join":
+//                    handleJoinMessage(session, request.getTeamId(), request.getNickname(), userId);
+//                    break;
 
                 default:
                     session.sendMessage(new TextMessage("❌ 타입:message,history,join"));
@@ -97,53 +97,53 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             System.err.println("메시지 저장 실패: " + e.getMessage());
 
             // 클라이언트에 실패 메시지 전송
-            String errorMessage = "전송실패. 헤더토큰,team_id,nickname,content";
+            String errorMessage = "전송실패. team_id,nickname,content";
             session.sendMessage(new TextMessage(errorMessage));
         }
     }
 
 
-    private void handleHistoryRequest(WebSocketSession session, Long teamId) throws Exception {
-        List<Message> messages = messageHistoryService.getMessageHistoryByTeamId(teamId);
+//    private void handleHistoryRequest(WebSocketSession session, Long teamId) throws Exception {
+//        List<Message> messages = messageHistoryService.getMessageHistoryByTeamId(teamId);
+//
+//        for (Message msg : messages) {
+//            MessageResponse response = new MessageResponse(
+//                    msg.getTeamId(),
+//                    msg.getNickname(),
+//                    msg.getUserId(),
+//                    msg.getContent(),
+//                    msg.getTimestamp()
+//            );
+//
+//            String json = mapper.writeValueAsString(response);
+//            session.sendMessage(new TextMessage(json));
+//        }
+//    }
 
-        for (Message msg : messages) {
-            MessageResponse response = new MessageResponse(
-                    msg.getTeamId(),
-                    msg.getNickname(),
-                    msg.getUserId(),
-                    msg.getContent(),
-                    msg.getTimestamp()
-            );
+//    private void handleJoinMessage(WebSocketSession session, Long teamId, String nickname, String userId) throws Exception {
+//        String joinMsg = nickname + "님이 입장하셨습니다.";
+//
+//        MessageResponse response = new MessageResponse(
+//                teamId,
+//                nickname,
+//                userId,
+//                joinMsg,
+//                DateFormatUtil.convertToMySQLDateFormat(Instant.now())
+//        );
+//
+//        String json = mapper.writeValueAsString(response);
+//        session.sendMessage(new TextMessage(json));
+//    }
 
-            String json = mapper.writeValueAsString(response);
-            session.sendMessage(new TextMessage(json));
-        }
-    }
-
-    private void handleJoinMessage(WebSocketSession session, Long teamId, String nickname, String userId) throws Exception {
-        String joinMsg = nickname + "님이 입장하셨습니다.";
-
-        MessageResponse response = new MessageResponse(
-                teamId,
-                nickname,
-                userId,
-                joinMsg,
-                DateFormatUtil.convertToMySQLDateFormat(Instant.now())
-        );
-
-        String json = mapper.writeValueAsString(response);
-        session.sendMessage(new TextMessage(json));
-    }
-
-    private void handleChatMessage(WebSocketSession session, MessageRequest request, String userId) throws Exception {
+    private void handleChatMessage(WebSocketSession session, MessageRequest request) throws Exception {
         // 메시지 저장
-        messageService.saveMessage(request, userId);
+        messageService.saveMessage(request);
 
         // 응답 객체 생성
         MessageChatResponse response = new MessageChatResponse(
                 request.getTeamId(),
                 request.getNickname(),
-                userId,
+//                userId,
                 request.getContent(),
                 DateFormatUtil.convertToMySQLDateFormat(Instant.now()),
                 request.getType()
