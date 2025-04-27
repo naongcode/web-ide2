@@ -70,13 +70,10 @@ public class FileController {
     @PutMapping
     public ResponseEntity<FileUpdateResponse> updateFile(@RequestBody FileUpdateRequest request) {
         logger.info("Received request to update file: fileId={}, fileName={}",
-                request.getFile_id(), request.getFile_name()); //수정(스네이크로)
+                request.getFile_id(), request.getFile_name());
 
-        File updatedFile = fileService.updateFile(request);
 
-        FileUpdateResponse response = FileUpdateResponse.builder()
-                .updatedAt(updatedFile.getUpdatedAt())
-                .build();
+        FileUpdateResponse response = fileService.updateFile(request);
 
         return ResponseEntity.ok(response);
     }

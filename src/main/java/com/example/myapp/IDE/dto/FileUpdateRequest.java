@@ -11,4 +11,5 @@ public class FileUpdateRequest {
     private Long file_id; //수정(스네이크로)
     private String code_context;  //수정 -> codeContext ,초기 context
     private String file_name; // 🔹 추가됨, 수정(스네이크로)
+    private String language; //추가
 }

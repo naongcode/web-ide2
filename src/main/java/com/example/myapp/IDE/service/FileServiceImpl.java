@@ -2,6 +2,7 @@ package com.example.myapp.IDE.service;
 
 import com.example.myapp.IDE.dto.FileCreateRequest;
 import com.example.myapp.IDE.dto.FileUpdateRequest;
+import com.example.myapp.IDE.dto.FileUpdateResponse;
 import com.example.myapp.IDE.entity.Folder;
 import com.example.myapp.IDE.entity.File;
 import com.example.myapp.IDE.entity.Quest;
@@ -58,26 +59,34 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File updateFile(FileUpdateRequest request) {
-        File file = fileRepository.findById(request.getFile_id()) //수정(스네이크로)
-                .orElseThrow(() -> new IllegalArgumentException("File not found"));
+    public FileUpdateResponse updateFile(FileUpdateRequest request) {
+        File file = fileRepository.findById(request.getFile_id())
+                .orElseThrow(() -> new IllegalArgumentException("파일을 찾을 수 없습니다."));
 
-        if (request.getFolder_id() != null) { //수정(스네이크로)
-            Folder folder = folderRepository.findById(request.getFolder_id()) //수정(스네이크로)
-                    .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
+        if (request.getFolder_id() != null) {
+            Folder folder = folderRepository.findById(request.getFolder_id())
+                    .orElseThrow(() -> new IllegalArgumentException("폴더를 찾을 수 없습니다."));
             file.setFolder(folder);
         }
 
-        if (request.getFile_name() != null) { //수정(스네이크로)
-            file.setFileName(request.getFile_name()); //수정(스네이크로)
+        if (request.getFile_name() != null) {
+            file.setFileName(request.getFile_name());
         }
 
-        if (request.getCode_context() != null) { //수정(스네이크로)
-            file.setCodeContext(request.getCode_context()); //수정(스네이크로)
+        if (request.getCode_context() != null) {
+            file.setCodeContext(request.getCode_context());
+        }
+
+        if (request.getLanguage() != null) {
+            file.setLanguage(request.getLanguage());
         }
 
         file.setUpdatedAt(new Date());
+        File updatedFile = fileRepository.save(file);
 
-        return fileRepository.save(file);
+        return FileUpdateResponse.builder()
+                .language(updatedFile.getLanguage())
+                .updatedAt(updatedFile.getUpdatedAt())
+                .build();
     }
 }

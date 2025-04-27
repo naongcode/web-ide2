@@ -20,7 +20,7 @@ public class QuestionAccessService {
             Long questId,
             String targetUserId
 
-            ) {
+    ) {
         Question question = questionRepository.findById(questId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제를 찾을 수 없습니다."));
 
@@ -34,16 +34,13 @@ public class QuestionAccessService {
         }
 
         // 자기 문제인지 확인 (토큰의 유저가 클릭한 userId와 같은지)
-        if (!tokenUserId.equals(targetUserId)) {
-            throw new IllegalArgumentException("자신의 문제에만 접근할 수 있습니다.");
-        }
-
+        boolean canAccess = tokenUserId.equals(targetUserId);
 
         return new QuestionAccessResponse(
                 question.getQuestId(),
                 question.getQuestName(),
                 question.getQuestLink(),
-                true
+                canAccess // 자기 문제인 경우 true, 아니면 false
         );
     }
 }

@@ -8,6 +8,6 @@ import java.util.Date;
 @Getter
 @Builder
 public class FileUpdateResponse {
-
     private Date updatedAt;     // 수정된 시각
+    private String language;
 }
