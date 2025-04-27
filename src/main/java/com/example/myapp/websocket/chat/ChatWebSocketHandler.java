@@ -8,6 +8,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.example.myapp.Membership.util.ExtractInfoFromToken;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Component
@@ -16,6 +19,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper mapper = new ObjectMapper();
     private final MessageService messageService;
     private final MessageHistoryService messageHistoryService;
+
+    // 브로드캐스트용
+    private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
     // 수동으로 객체 생성
     private final ExtractInfoFromToken extractInfoFromToken = new ExtractInfoFromToken();
@@ -32,10 +38,17 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
+        sessions.add(session); // ✅ 연결된 세션 추가
         System.out.println("✅ WebSocket 연결됨: " + session.getId());
 
         // 첫 번째 메시지가 오기 전에 teamId를 초기화하지 않음
         // 팀 ID는 클라이언트에서 첫 번째 메시지를 보낼 때 설정됨
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        sessions.remove(session); // ✅ 연결 종료된 세션 제거
+        System.out.println("❌ WebSocket 연결 해제됨: " + session.getId());
     }
 
     // 메세지 송신/수신
@@ -148,7 +161,13 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         );
 
         String json = mapper.writeValueAsString(response);
-        session.sendMessage(new TextMessage(json));
-    }
+        TextMessage textMessage = new TextMessage(json);
 
+        // 모든 세션에 메세지 전파
+        for (WebSocketSession clientSession : sessions) {
+            if (clientSession.isOpen()) {
+                clientSession.sendMessage(textMessage);
+            }
+        }
+    }
 }
