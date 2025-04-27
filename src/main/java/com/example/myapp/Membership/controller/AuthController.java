@@ -3,7 +3,6 @@ package com.example.myapp.Membership.controller;
 import com.example.myapp.Membership.dto.*;
 import com.example.myapp.Membership.entity.User2;
 import com.example.myapp.Membership.service.UserService;
-import com.example.myapp.Membership.util.extractInfoFromToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

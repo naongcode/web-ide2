@@ -6,7 +6,7 @@ import com.example.myapp.IDE.dto.FileUpdateRequest;
 import com.example.myapp.IDE.dto.FileUpdateResponse;
 import com.example.myapp.IDE.entity.File;
 import com.example.myapp.IDE.service.FileService;
-import com.example.myapp.Membership.util.extractInfoFromToken;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class FileController {
         }
 
         String token = authorizationHeader.substring(7); // "Bearer " 이후의 토큰 값
-        String userId = extractInfoFromToken.extractUserIdFromToken(token);
+        String userId = ExtractInfoFromToken.extractUserIdFromToken(token);
 
         // 경로에서 받은 값 세팅
         request.setTeam_id(teamId); //수정(스네이크로)

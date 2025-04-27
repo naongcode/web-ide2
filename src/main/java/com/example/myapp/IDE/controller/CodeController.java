@@ -6,11 +6,10 @@ import com.example.myapp.IDE.dto.FolderInfo;
 import com.example.myapp.IDE.service.CodeService;
 import com.example.myapp.IDE.dto.CodeRunRequest;
 import com.example.myapp.IDE.dto.CodeRunResponse;
-import com.example.myapp.Membership.util.extractInfoFromToken;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.myapp.Membership.config.AppConfig;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class CodeController {
     )  {
         // 토큰에서 userId 추출
         String token = authorizationHeader.replace("Bearer ", "");
-        String userIdFromToken = extractInfoFromToken.extractUserIdFromToken(token); // <-- userId를 토큰에서 얻음
+        String userIdFromToken = ExtractInfoFromToken.extractUserIdFromToken(token); // <-- userId를 토큰에서 얻음
 
         // 요청 본문 DTO에서 상태 정보 및 기타 필드 추출
         String questStatus = request.getQuest_status();

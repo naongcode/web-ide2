@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // `ChatWebSocketHandler`에 `MessageService`와 `MessageHistoryService`를 주입하여 등록
-        registry.addHandler(new ChatWebSocketHandler(messageService, messageHistoryService), "/ws/chat")
+        registry.addHandler(new ChatWebSocketHandler(messageService, messageHistoryService), "/wss/chat")
                 .setAllowedOrigins("*");
     }
 }

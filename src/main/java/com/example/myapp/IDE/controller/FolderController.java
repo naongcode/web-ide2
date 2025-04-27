@@ -4,7 +4,7 @@ import com.example.myapp.IDE.dto.FolderCreateRequest;
 import com.example.myapp.IDE.dto.FolderCreateResponse;
 import com.example.myapp.IDE.service.FolderService;
 import com.example.myapp.IDE.entity.Folder;
-import com.example.myapp.Membership.util.extractInfoFromToken;
+import com.example.myapp.Membership.util.ExtractInfoFromToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class FolderController {
         }
 
         String token = authorizationHeader.substring(7); // "Bearer " 이후의 토큰 값
-        String userId = extractInfoFromToken.extractUserIdFromToken(token);
+        String userId = ExtractInfoFromToken.extractUserIdFromToken(token);
 
 
         // 요청 데이터에서 teamId, questId, userId를 세팅
